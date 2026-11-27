@@ -37,8 +37,6 @@ Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "french";     MessagesFile: "compiler:Languages\French.isl"
 Name: "japanese";   MessagesFile: "compiler:Languages\Japanese.isl"
 Name: "russian";    MessagesFile: "compiler:Languages\Russian.isl"
-Name: "serbian";    MessagesFile: "compiler:Languages\SerbianLatin.isl"
-Name: "croatian";   MessagesFile: "compiler:Languages\Croatian.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"

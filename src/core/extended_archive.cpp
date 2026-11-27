@@ -165,7 +165,9 @@ fs::path find_bsdtar() {
     if (fs::exists("/usr/bin/bsdtar")) return "/usr/bin/bsdtar";
     if (fs::exists("/usr/local/bin/bsdtar")) return "/usr/local/bin/bsdtar";
     if (fs::exists("/bin/bsdtar")) return "/bin/bsdtar";
+#ifdef __APPLE__
     if (fs::exists("/usr/bin/tar")) return "/usr/bin/tar";
+#endif
     return "bsdtar";
 }
 #endif
@@ -243,7 +245,9 @@ void parse_bsdtar_listing(const std::string& text, ArchiveFormat fmt,
 
 bool ExtendedArchive::is_available() {
     auto r = run_process(find_bsdtar(), {"--version"});
-    return r.exit_code == 0;
+    if (r.exit_code != 0) return false;
+    std::string out(reinterpret_cast<const char*>(r.stdout_bytes.data()), r.stdout_bytes.size());
+    return out.find("libarchive") != std::string::npos || out.find("bsdtar") != std::string::npos;
 }
 
 bool ExtendedArchive::list(const fs::path& archive_path, ArchiveFormat fmt,
