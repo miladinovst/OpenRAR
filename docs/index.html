@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenRAR - Free Open-Source Archiver for Windows, Linux &amp; macOS</title>
+  <meta name="description" content="OpenRAR is a fast, lightweight, zero-dependency open-source C++20 file archiver for Windows, Linux, and macOS.">
+  <link rel="icon" type="image/x-icon" href="assets/openrar.ico">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 12px 40px;
+      background-color: #eceff3;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    a { color: #0969da; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #c8d1dc;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Classic top header */
+    .header {
+      background: linear-gradient(to bottom, #f8fafc, #e9eef5);
+      border-bottom: 1px solid #c8d1dc;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand img {
+      width: 48px;
+      height: 48px;
+      display: block;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #18181b;
+      letter-spacing: -0.3px;
+    }
+    .brand .tagline {
+      margin: 2px 0 0;
+      font-size: 13px;
+      color: #525866;
+    }
+    .version-badge {
+      display: inline-block;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    /* Simple classic navigation bar */
+    .nav {
+      background: #f3f5f8;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 24px;
+      font-size: 13px;
+    }
+    .nav a {
+      margin-right: 16px;
+      font-weight: 600;
+      color: #24292f;
+    }
+    .nav a:hover { color: #0969da; }
+
+    .content {
+      padding: 22px 24px 28px;
+    }
+
+    h2 {
+      font-size: 17px;
+      margin: 26px 0 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #d8dee4;
+      color: #18181b;
+    }
+    h2:first-child { margin-top: 0; }
+
+    /* Classic two-column intro + download box */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 720px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    .download-box {
+      background: #f4fbf6;
+      border: 1px solid #9ad0aa;
+      padding: 14px 16px;
+      border-radius: 3px;
+    }
+    .download-box h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #14532d;
+    }
+    .btn-download {
+      display: block;
+      text-align: center;
+      background: linear-gradient(to bottom, #2da44e, #218838);
+      border: 1px solid #1e7e34;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 9px 12px;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    .btn-download:hover {
+      background: linear-gradient(to bottom, #2c974b, #1d7a33);
+      text-decoration: none;
+    }
+    .dl-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 12.5px;
+    }
+    .dl-list li {
+      padding: 3px 0;
+      border-top: 1px dotted #cbe6d3;
+    }
+    .dl-list li:first-child { border-top: none; }
+    .dl-meta {
+      color: #57606a;
+      font-size: 11.5px;
+    }
+
+    /* Screenshot frame */
+    .screenshot-wrap {
+      margin: 16px 0 6px;
+      text-align: center;
+    }
+    .screenshot-wrap img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #bfc7d1;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .caption {
+      font-size: 12px;
+      color: #57606a;
+      margin-top: 6px;
+    }
+
+    /* Classic data tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 16px;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid #d0d7de;
+      padding: 6px 9px;
+      text-align: left;
+    }
+    th {
+      background: #f3f5f8;
+      font-weight: 600;
+      color: #24292f;
+    }
+    tr:nth-child(even) td { background: #fafbfc; }
+    .center { text-align: center; }
+    .yes { color: #1a7f37; font-weight: 600; }
+    .no { color: #8c959f; }
+
+    /* Feature list */
+    ul.features {
+      padding-left: 20px;
+      margin: 8px 0 14px;
+    }
+    ul.features li { margin-bottom: 5px; }
+
+    /* Classic monospace code block */
+    pre {
+      background: #f6f8fa;
+      border: 1px solid #d0d7de;
+      padding: 12px 14px;
+      overflow-x: auto;
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+    code {
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12.5px;
+      background: #f0f2f5;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+    pre code { background: none; padding: 0; }
+
+    /* Author & Notice boxes */
+    .info-box {
+      background: #f8f9fb;
+      border: 1px solid #d0d7de;
+      padding: 14px 16px;
+      margin: 12px 0;
+      border-radius: 3px;
+    }
+    .notice-box {
+      background: #fffbeb;
+      border: 1px solid #f0d58c;
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+
+    .lang-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .lang-tag {
+      background: #f3f5f8;
+      border: 1px solid #d0d7de;
+      padding: 3px 8px;
+      font-size: 12.5px;
+      border-radius: 2px;
+    }
+
+    .footer {
+      background: #f3f5f8;
+      border-top: 1px solid #d0d7de;
+      padding: 14px 24px;
+      font-size: 12px;
+      color: #57606a;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">
+        <img src="assets/openrar.svg" alt="OpenRAR Logo">
+        <div>
+          <h1>OpenRAR <span class="version-badge">v1.0.0</span></h1>
+          <p class="tagline">Fast, zero-dependency, open-source C++20 file archiver for Windows, Linux &amp; macOS</p>
+        </div>
+      </div>
+      <div>
+        <a href="https://github.com/miladinovst/OpenRAR"><strong>View on GitHub &rarr;</strong></a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+      <a href="#download">Download</a>
+      <a href="#features">Features</a>
+      <a href="#formats">Supported Formats</a>
+      <a href="#languages">Languages</a>
+      <a href="#cli">CLI Usage</a>
+      <a href="#author">Author &amp; License</a>
+      <a href="https://github.com/miladinovst/OpenRAR/issues">Report a Bug</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="hero-grid" id="download">
+        <div>
+          <h2>What is OpenRAR?</h2>
+          <p>
+            <strong>OpenRAR</strong> is a clean-room, open-source file archiver written from scratch in
+            portable C++20 with <strong>zero external build dependencies</strong>. No Electron, no runtime bloat,
+            no ads, and no 40-day trial popups.
+          </p>
+          <p>
+            It ships with a native Win32 desktop GUI on Windows (the entire portable bundle is under 1 MB),
+            a cross-platform command-line tool (<code>openrar</code>), a standalone Self-Extracting Archive (SFX)
+            builder, and Windows Explorer right-click menu integration.
+          </p>
+          <p>
+            <strong>Free to use, fork, and improve:</strong> Everyone is welcome to contribute and collaborate on GitHub.
+            Charging for or reselling this software as a paid digital product is strictly forbidden.
+          </p>
+        </div>
+
+        <div class="download-box">
+          <h3>Download OpenRAR v1.0.0</h3>
+          <a class="btn-download" href="https://github.com/miladinovst/OpenRAR/releases/download/v1.0.0/OpenRAR-Setup-1.0.0-win64.exe">
+            Download for Windows x64 (.exe)
+          </a>
+          <ul class="dl-list">
+            <li>
+              <a href="https://github.com/miladinovst/OpenRAR/releases/download/v1.0.0/OpenRAR-1.0.0-win64.zip">OpenRAR-1.0.0-win64.zip</a>
+              <span class="dl-meta">(Windows Portable + install.ps1)</span>
+            </li>
+            <li>
+              <a href="https://github.com/miladinovst/OpenRAR/releases/download/v1.0.0/OpenRAR-1.0.0-Linux.deb">OpenRAR-1.0.0-Linux.deb</a>
+              <span class="dl-meta">(Debian / Ubuntu)</span>
+            </li>
+            <li>
+              <a href="https://github.com/miladinovst/OpenRAR/releases/download/v1.0.0/OpenRAR-1.0.0-linux-x86_64.tar.gz">OpenRAR-1.0.0-linux-x86_64.tar.gz</a>
+              <span class="dl-meta">(Linux x86_64)</span>
+            </li>
+            <li>
+              <a href="https://github.com/miladinovst/OpenRAR/releases/download/v1.0.0/OpenRAR-1.0.0-macos-arm64.tar.gz">OpenRAR-1.0.0-macos-arm64.tar.gz</a>
+              <span class="dl-meta">(macOS Apple Silicon)</span>
+            </li>
+            <li>
+              <a href="https://github.com/miladinovst/OpenRAR/releases/download/v1.0.0/SHA256SUMS.txt">SHA256SUMS.txt</a>
+              <span class="dl-meta">&middot; <a href="https://github.com/miladinovst/OpenRAR/releases/tag/v1.0.0">All Release Notes</a></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screenshot-wrap">
+        <img src="assets/screenshot.png" alt="OpenRAR Windows Desktop Interface">
+        <div class="caption">OpenRAR Desktop GUI on Windows browsing an AES-256 encrypted .orar archive</div>
+      </div>
+
+      <h2 id="features">Key Features</h2>
+      <ul class="features">
+        <li><strong>Fast Multi-Threaded Compression:</strong> Native C++20 RFC 1951 Deflate/Inflate engine with dynamic Huffman coding, lazy LZ77 matching, and multi-core compression (2,200+ MB/s on 24 threads).</li>
+        <li><strong>Strong Encryption &amp; Security:</strong> AES-256-GCM authenticated encryption, optional filename/header encryption (<code>-hp</code>), CRC32 + SHA-256 integrity checks, and Zip-Slip path traversal protection.</li>
+        <li><strong>Built-In Archive Repair (<code>-rr</code>):</strong> Interleaved 512-byte sector parity recovery records reconstruct damaged <code>.orar</code> archives bit-for-bit.</li>
+        <li><strong>Full Daily-Driver Toolset:</strong> Split volumes (<code>.partN.orar</code> / <code>.partN.zip</code>), standalone Self-Extracting Archives (SFX), recursive Find-in-Archives, batch format conversion, archive comments, and CPU benchmark.</li>
+        <li><strong>Windows Explorer Integration:</strong> Optional per-user cascading right-click <code>OpenRAR &gt;</code> submenu (no administrator privileges required).</li>
+        <li><strong>Zero External Dependencies:</strong> Builds offline out of the box with CMake + MSVC, GCC, or Clang.</li>
+      </ul>
+
+      <h2 id="formats">Supported Archive Formats</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th class="center">Create</th>
+            <th class="center">Extract</th>
+            <th class="center">List / Test</th>
+            <th class="center">Encrypt</th>
+            <th class="center">Repair</th>
+            <th class="center">Split Volumes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>OpenRAR (<code>.orar</code>)</strong></td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center">AES-256-GCM + <code>-hp</code></td>
+            <td class="center yes">Yes (Parity)</td>
+            <td class="center yes">Yes</td>
+          </tr>
+          <tr>
+            <td><strong>ZIP / ZIP64 (<code>.zip</code>)</strong></td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center">AE-2 AES-256 / ZipCrypto</td>
+            <td class="center yes">Yes (Scan)</td>
+            <td class="center yes">Yes</td>
+          </tr>
+          <tr>
+            <td><strong>7-Zip (<code>.7z</code>)</strong></td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center">Extract</td>
+            <td class="center no">No</td>
+            <td class="center no">No</td>
+          </tr>
+          <tr>
+            <td><strong>RAR4 / RAR5 (<code>.rar</code>)</strong></td>
+            <td class="center">Optional</td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center">Extract</td>
+            <td class="center no">No</td>
+            <td class="center no">No</td>
+          </tr>
+          <tr>
+            <td><strong>TAR / TAR.GZ (<code>.tar</code>, <code>.tgz</code>)</strong></td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center no">No</td>
+            <td class="center no">No</td>
+            <td class="center no">No</td>
+          </tr>
+          <tr>
+            <td><strong>TAR.XZ / TAR.BZ2 / TAR.ZST / GZip / CAB / ISO</strong></td>
+            <td class="center no">No</td>
+            <td class="center yes">Yes</td>
+            <td class="center yes">Yes</td>
+            <td class="center no">No</td>
+            <td class="center no">No</td>
+            <td class="center no">No</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="languages">13 Built-In Languages</h2>
+      <p>
+        OpenRAR automatically detects your operating system language on startup. You can also switch languages
+        live in the GUI (<strong>Options &rarr; Language</strong>) or from the CLI with <code>--lang=&lt;code&gt;</code>:
+      </p>
+      <div class="lang-tags">
+        <span class="lang-tag">English (en)</span>
+        <span class="lang-tag">中文 (zh)</span>
+        <span class="lang-tag">Español (es)</span>
+        <span class="lang-tag">हिन्दी (hi)</span>
+        <span class="lang-tag">العربية (ar)</span>
+        <span class="lang-tag">Português (pt)</span>
+        <span class="lang-tag">Bahasa Indonesia (id)</span>
+        <span class="lang-tag">Français (fr)</span>
+        <span class="lang-tag">日本語 (ja)</span>
+        <span class="lang-tag">Русский (ru)</span>
+        <span class="lang-tag">Srpski (sr)</span>
+        <span class="lang-tag">Hrvatski (hr)</span>
+        <span class="lang-tag">Bosanski (bs)</span>
+      </div>
+
+      <h2 id="cli">Quick CLI Examples</h2>
+      <pre><code># Create a solid, AES-256-GCM encrypted .orar archive with encrypted names and 10% recovery record
+openrar a -m5 -s -rr10 -hpMySecret backup.orar ./my_folder
+
+# Create a standard AE-2 AES-256 encrypted ZIP archive
+openrar a -pSecret docs.zip report.pdf notes.txt
+
+# Extract, test, or repair a corrupted archive
+openrar x -pMySecret backup.orar ./extracted
+openrar t -pMySecret backup.orar
+openrar r damaged.orar fixed.orar
+
+# Create a standalone Self-Extracting Archive (.exe on Windows, executable on Linux/macOS)
+openrar sfx backup.orar MyInstaller.exe
+
+# Register Windows Explorer cascading right-click menu (no admin needed)
+openrar install-menu</code></pre>
+
+      <h2 id="author">About the Author &amp; Contributing</h2>
+      <div class="info-box">
+        <p style="margin-top:0;">
+          <strong>Author:</strong> Stefan Miladinovi&#263; (<a href="https://github.com/miladinovst">@miladinovst</a>)
+        </p>
+        <p>
+          OpenRAR was created as a clean, fast, open-source alternative for everyday archiving without ads,
+          nag screens, or bloated runtimes. Pull requests, bug reports, translations, and ideas are always welcome
+          on <a href="https://github.com/miladinovst/OpenRAR">github.com/miladinovst/OpenRAR</a>.
+        </p>
+        <p style="margin-bottom:0;">
+          <strong>Links:</strong>
+          <a href="https://github.com/miladinovst">GitHub Profile</a> &middot;
+          <a href="https://github.com/miladinovst/OpenRAR">Source Code</a> &middot;
+          <a href="https://github.com/miladinovst/OpenRAR/releases">Releases</a> &middot;
+          <a href="https://github.com/miladinovst/OpenRAR/blob/main/ARCHITECTURE.md">Architecture</a> &middot;
+          <a href="https://github.com/miladinovst/OpenRAR/blob/main/CONTRIBUTING.md">Contributing Guide</a>
+        </p>
+      </div>
+
+      <div class="notice-box">
+        <strong>License &amp; Non-Commercial Notice:</strong> OpenRAR is free and open-source under the
+        <a href="https://github.com/miladinovst/OpenRAR/blob/main/LICENSE">OpenRAR Non-Commercial Public License</a>.
+        You are free to use, study, fork, improve, and collaborate on it. Selling this software, charging for downloads,
+        or bundling it into a paid digital product without written permission from the author is strictly forbidden.
+        <br><br>
+        <strong>Trademark Notice:</strong> OpenRAR is an independent project and is not affiliated with, endorsed by,
+        or sponsored by win.rar GmbH, RARLAB, Corel/WinZip, or 7-Zip.
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 Stefan Miladinovi&#263; &amp; OpenRAR Contributors &middot;
+      Hosted on <a href="https://pages.github.com/">GitHub Pages</a> &middot;
+      <a href="https://github.com/miladinovst/OpenRAR">Source on GitHub</a>
+    </div>
+  </div>
+</body>
+</html>

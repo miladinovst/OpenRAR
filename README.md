@@ -6,6 +6,10 @@
 
 <p align="center">
   Fast, zero-dependency, open-source C++20 archiver for Windows, Linux, and macOS.
+  <br/>
+  <a href="https://miladinovst.github.io/OpenRAR/"><strong>Project Website</strong></a> &middot;
+  <a href="https://github.com/miladinovst/OpenRAR/releases/latest"><strong>Download v1.0.0</strong></a> &middot;
+  <a href="https://github.com/miladinovst/OpenRAR/issues"><strong>Report Bug</strong></a>
 </p>
 
 <p align="center">
