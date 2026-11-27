@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.3.0",
+  "project": {
+    "name": "OpenRaR",
+    "native_extension": ".orar",
+    "language": "C++20",
+    "build_system": "CMake (>=3.20)",
+    "license": "MIT",
+    "external_build_dependencies": [],
+    "platforms": [
+      "Windows (MSVC + Win32 GUI)",
+      "Linux (GCC/Clang CLI + Core + SFX)",
+      "macOS (Clang CLI + Core + SFX)"
+    ]
+  },
+  "build_and_test": {
+    "windows_build_test_run": ".\\build.ps1 -Test -RunGui",
+    "windows_test_only": ".\\build\\openrar_tests.exe",
+    "linux_build_and_test": "./build.sh",
+    "cmake_manual": "cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j && ctest --test-dir build --output-on-failure",
+    "ci_workflow": ".github/workflows/ci.yml",
+    "release_workflow": ".github/workflows/release.yml",
+    "windows_release_script": ".\\scripts\\package_release.ps1"
+  },
+  "assets": [
+    {"path": "assets/openrar.svg", "role": "Flat geometric vector logo for README and docs"},
+    {"path": "assets/openrar_logo.png", "role": "512x512 4x-supersampled transparent PNG logo"},
+    {"path": "assets/openrar.ico", "role": "Multi-resolution (16..256px) Windows icon embedded via src/gui/app.rc"}
+  ],
+  "nodes": {
+    "modules": [
+      {
+        "id": "mod:types",
+        "path": ["include/openrar/types.hpp", "src/core/types.cpp"],
+        "layer": "primitives",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["ArchiveFormat", "EntryInfo", "ArchiveInfo", "CreateOptions", "ExtractOptions", "OperationResult", "is_safe_relative_path", "wildcard_match"],
+        "summary": "Domain models, format detection (magic bytes + extension), Zip-Slip guard, wildcard matching, portable timestamps, and file I/O."
+      },
+      {
+        "id": "mod:binary_io",
+        "path": ["include/openrar/binary_io.hpp"],
+        "layer": "primitives",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["bin::read_u16", "bin::read_u32", "bin::read_u64", "bin::write_u16", "bin::write_u32", "bin::write_u64", "bin::load_split_volumes"],
+        "summary": "Header-only little-endian binary serialization and generic .partN.<ext> multi-volume reassembler."
+      },
+      {
+        "id": "mod:crypto",
+        "path": ["include/openrar/crypto.hpp", "src/core/crypto.cpp"],
+        "layer": "primitives",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["crypto::crc32", "crypto::sha256", "crypto::sha1", "crypto::hmac_sha256", "crypto::hmac_sha1", "crypto::pbkdf2_hmac_sha256", "crypto::pbkdf2_hmac_sha1", "crypto::aes256_gcm_encrypt", "crypto::aes256_gcm_decrypt", "crypto::aes256_ctr_crypt", "crypto::ZipCrypto", "crypto::constant_time_equal"],
+        "summary": "Self-contained cryptographic primitives including AES-256-GCM, AE-2 SHA-1/CTR, ZipCrypto, SHA-256, CRC32, and OS CSPRNG."
+      },
+      {
+        "id": "mod:deflate",
+        "path": ["include/openrar/deflate.hpp", "src/core/deflate.cpp"],
+        "layer": "primitives",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["codec::deflate_compress", "codec::deflate_decompress", "codec::gzip_compress", "codec::gzip_decompress"],
+        "summary": "RFC 1951 Deflate (Dynamic Huffman + Fixed Huffman + Stored auto-selection + lazy LZ77) and 9-bit O(1) Inflate + RFC 1952 GZip."
+      },
+      {
+        "id": "mod:recovery",
+        "path": ["include/openrar/recovery.hpp", "src/core/recovery.cpp"],
+        "layer": "primitives",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["recovery::build_recovery_record", "recovery::repair_with_recovery_record", "recovery::RecoveryStats"],
+        "summary": "512-byte sector CRC32 + interleaved XOR parity Recovery Record builder and bit-for-bit burst-error repair engine."
+      },
+      {
+        "id": "mod:i18n",
+        "path": ["include/openrar/i18n.hpp", "src/core/i18n.cpp"],
+        "layer": "primitives",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["i18n::Language", "i18n::StrKey", "i18n::available_languages", "i18n::set_language", "i18n::set_language_code", "i18n::detect_system_language", "i18n::tr"],
+        "summary": "Zero-dependency UTF-8 localization engine supporting 13 languages (en, zh, es, hi, ar, pt, id, fr, ja, ru, sr, hr, bs) with automatic Windows/POSIX OS locale detection."
+      },
+      {
+        "id": "mod:orar_archive",
+        "path": ["include/openrar/orar_archive.hpp", "src/core/orar_archive.cpp"],
+        "layer": "formats",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["OrarArchive::create", "OrarArchive::extract", "OrarArchive::list", "OrarArchive::test", "OrarArchive::repair"],
+        "summary": "Native OpenRaR (.orar) format: solid & parallel compression, AES-256-GCM payload & header encryption (-hp), Recovery Records (-rr), split volumes, comments, CRC32+SHA-256."
+      },
+      {
+        "id": "mod:zip_archive",
+        "path": ["include/openrar/zip_archive.hpp", "src/core/zip_archive.cpp"],
+        "layer": "formats",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["ZipArchive::create", "ZipArchive::extract", "ZipArchive::list", "ZipArchive::test", "ZipArchive::delete_entries", "ZipArchive::repair"],
+        "summary": "PKWARE ZIP & ZIP64 (>4GB / >65535 files), parallel compression, standard AE-2 AES-256 & ZipCrypto, UTF-8, comments, add/delete, header-scan repair, split volumes."
+      },
+      {
+        "id": "mod:tar_archive",
+        "path": ["include/openrar/tar_archive.hpp", "src/core/tar_archive.cpp"],
+        "layer": "formats",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["TarArchive::create", "TarArchive::extract", "TarArchive::list", "TarArchive::test"],
+        "summary": "POSIX USTAR + GNU LongName .tar and .tar.gz/.tgz archive handler."
+      },
+      {
+        "id": "mod:rar_inspector",
+        "path": ["include/openrar/rar_inspector.hpp", "src/core/rar_inspector.cpp"],
+        "layer": "formats",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["RarInspector::list"],
+        "summary": "Zero-dependency binary header & entry parser for RAR4 and RAR5 archives."
+      },
+      {
+        "id": "mod:extended_archive",
+        "path": ["include/openrar/extended_archive.hpp", "src/core/extended_archive.cpp"],
+        "layer": "formats",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["ExtendedArchive::is_available", "ExtendedArchive::list", "ExtendedArchive::extract", "ExtendedArchive::test", "ExtendedArchive::create_7z"],
+        "summary": "Silent libarchive (Windows 11 tar.exe / Linux bsdtar) + unrar/7z fallback backend for RAR4/RAR5, 7z (create+extract), TAR.XZ, TAR.BZ2, TAR.ZST, CAB, ISO."
+      },
+      {
+        "id": "mod:archive_manager",
+        "path": ["include/openrar/archive_manager.hpp", "src/core/archive_manager.cpp"],
+        "layer": "facade",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["ArchiveManager::list", "ArchiveManager::create", "ArchiveManager::extract", "ArchiveManager::test", "ArchiveManager::repair", "ArchiveManager::convert_archives", "ArchiveManager::find_files", "ArchiveManager::create_sfx", "ArchiveManager::run_benchmark", "ArchiveManager::register_shell_context_menu"],
+        "summary": "Unified API dispatching to format handlers + Batch Convert, Find-in-Archives, SFX builder, Multi-threaded Benchmark, HKCU Windows Explorer right-click integration."
+      },
+      {
+        "id": "mod:cli",
+        "path": ["src/cli/main.cpp"],
+        "layer": "entrypoint",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["main"],
+        "summary": "Cross-platform CLI (openrar) supporting a, x, e, l, t, d, c, r, f, cv, sfx, b, info and switches -p, -hp, -m0..5, -s, -rr, -v, -o+/-o-/-or, -df, -t, -y."
+      },
+      {
+        "id": "mod:sfx_stub",
+        "path": ["src/sfx/sfx_stub.cpp"],
+        "layer": "entrypoint",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["main"],
+        "summary": "Self-Extracting Archive executable stub reading ORARSFX1 trailer from its own binary."
+      },
+      {
+        "id": "mod:gui",
+        "path": [
+          "src/gui/gui_common.hpp",
+          "src/gui/gui_config.hpp",
+          "src/gui/toolbar_icons.hpp",
+          "src/gui/gui_toolbar.hpp",
+          "src/gui/gui_toolbar.cpp",
+          "src/gui/gui_dialogs.hpp",
+          "src/gui/gui_dialogs.cpp",
+          "src/gui/main_win32.cpp",
+          "src/gui/app.rc",
+          "src/gui/app.manifest"
+        ],
+        "layer": "entrypoint",
+        "platform": "windows-only",
+        "status": "done",
+        "key_symbols": ["wWinMain", "create_app_toolbar", "show_add_dialog", "show_extract_dialog", "show_wizard_dialog", "run_with_progress"],
+        "summary": "Modular native Win32 desktop GUI with flat geometric embedded .ico, 9-button GDI+ toolbar, hierarchical archive browsing, right-click menu, Drag & Drop, non-blocking live progress dialog, Wizard, persistent config."
+      },
+      {
+        "id": "mod:installers",
+        "path": [
+          "installer/windows/install.ps1",
+          "installer/windows/uninstall.ps1",
+          "installer/windows/openrar.iss",
+          "installer/unix/install.sh",
+          "installer/unix/uninstall.sh",
+          "scripts/package_release.ps1",
+          ".github/workflows/release.yml"
+        ],
+        "layer": "packaging",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["install.ps1", "uninstall.ps1", "openrar.iss", "install.sh", "uninstall.sh", "package_release.ps1", "release.yml"],
+        "summary": "Cross-platform setup installers (Windows per-user PowerShell + Inno Setup 6, Linux/macOS install.sh + CPack DEB/TGZ) and automated multi-OS GitHub Release workflow."
+      },
+      {
+        "id": "mod:tests",
+        "path": ["tests/test_openrar.cpp"],
+        "layer": "verification",
+        "platform": "cross-platform",
+        "status": "done",
+        "key_symbols": ["test_crypto", "test_deflate_stress", "test_zip_lifecycle", "test_orar_full_features", "test_extract_modes_and_security", "test_tar_longname", "test_7z_convert_find_bench", "test_rar5_inspector", "test_sfx_end_to_end", "test_cli_end_to_end", "test_i18n"],
+        "summary": "Automated 11-suite verification & stress runner covering NIST/RFC6070 crypto, Deflate multi-block/fuzz, ZIP AE-2/ZipCrypto/Unicode/Repair/Split, OpenRaR Solid/Parallel/BurstRepair/Unicode/Split, Extract modes & Zip-Slip security, TAR GNU LongName, 7z/Convert/Find/Benchmark, RAR5 Inspector, real SFX execution, real CLI process, and 13-language i18n completeness."
+      }
+    ],
+    "features": [
+      {"id": "feat:orar_full", "status": "done", "tested": true, "notes": "Solid, parallel non-solid, AES-256-GCM, -hp encrypted headers, -rr recovery record repair, split volumes, comments"},
+      {"id": "feat:zip_zip64_ae2", "status": "done", "tested": true, "notes": "Dynamic Huffman Deflate, ZIP64 read/write, standard AE-2 AES-256 & ZipCrypto, split volumes, comments, add/delete, header-scan repair"},
+      {"id": "feat:rar_extract", "status": "done", "tested": false, "notes": "RAR4/RAR5 header inspection native; extraction via Windows 11 libarchive/bsdtar + unrar/7z fallback for encrypted RARs"},
+      {"id": "feat:7z_support", "status": "done", "tested": true, "notes": "Create, list, test, extract via libarchive/bsdtar + 7z fallback for encrypted 7z"},
+      {"id": "feat:tar_gz_xz_bz2", "status": "done", "tested": true, "notes": "Native TAR/TAR.GZ/GZ + libarchive backend for TAR.XZ/TAR.BZ2/TAR.ZST/CAB/ISO"},
+      {"id": "feat:sfx", "status": "done", "tested": true, "notes": "Standalone .exe (Windows) and ELF (Linux) self-extracting executables"},
+      {"id": "feat:find_in_archives", "status": "done", "tested": true, "notes": "Recursive wildcard filename + text content search on disk and inside archives"},
+      {"id": "feat:benchmark", "status": "done", "tested": true, "notes": "Multi-threaded CPU compression benchmark (2,641 MB/s verified on 24 threads)"},
+      {"id": "feat:win32_gui", "status": "done", "tested": false, "notes": "Built and smoke-launched manually; flat geometric vector icon embedded via app.rc"},
+      {"id": "feat:shell_context_menu", "status": "done", "tested": false, "notes": "Per-user HKCU Windows Explorer right-click registration for .rar/.7z/.zip/.orar/.tar/.gz/.xz/.bz2/.zst"},
+      {"id": "feat:cross_platform_ci", "status": "done", "tested": false, "notes": "GitHub Actions CI workflow (.github/workflows/ci.yml) targeting windows-latest (MSVC) and ubuntu-latest (GCC + Clang)"},
+      {"id": "feat:i18n_13_langs", "status": "done", "tested": true, "notes": "Full UTF-8 localization for 13 languages (en, zh, es, hi, ar, pt, id, fr, ja, ru, sr, hr, bs) with OS auto-detect, live GUI switcher, and CLI --lang support"},
+      {"id": "feat:installers_release", "status": "done", "tested": true, "notes": "Windows install.ps1 + Inno Setup 6 .iss, Linux/macOS install.sh + CPack DEB/TGZ, local package_release.ps1, and tag-triggered GitHub Release workflow"},
+      {"id": "feat:streaming_large_files", "status": "not_done", "tested": false, "hotspot": ["src/core/zip_archive.cpp:build_zip_bytes", "src/core/orar_archive.cpp:build_and_write_orar"], "notes": "ZipArchive & OrarArchive currently buffer full archive bytes in RAM; refactor to chunked streaming I/O for 10GB+ files"},
+      {"id": "feat:linux_gui", "status": "not_done", "tested": false, "hotspot": ["CMakeLists.txt"], "notes": "Linux currently builds CLI + Core + SFX + Tests only; optional GTK4/Qt6/ImGui frontend planned"},
+      {"id": "feat:lzma2_zstd_native", "status": "not_done", "tested": false, "hotspot": ["src/core/orar_archive.cpp"], "notes": "Add optional Zstandard or LZMA2 codec inside .orar for tighter compression on large binaries"},
+      {"id": "feat:gui_folder_tree", "status": "not_done", "tested": false, "hotspot": ["src/gui/main_win32.cpp:layout_controls"], "notes": "Optional collapsible left Folder Tree pane and right Comment panel"},
+      {"id": "feat:gui_drag_out", "status": "not_done", "tested": false, "hotspot": ["src/gui/main_win32.cpp:MainWndProc"], "notes": "OLE IDropSource / CF_HDROP drag-out extraction from open archive to Explorer"}
+    ]
+  },
+  "edges": [
+    {"from": "mod:gui", "to": "mod:archive_manager", "type": "depends_on"},
+    {"from": "mod:gui", "to": "mod:i18n", "type": "depends_on"},
+    {"from": "mod:cli", "to": "mod:archive_manager", "type": "depends_on"},
+    {"from": "mod:cli", "to": "mod:i18n", "type": "depends_on"},
+    {"from": "mod:sfx_stub", "to": "mod:archive_manager", "type": "depends_on"},
+    {"from": "mod:archive_manager", "to": "mod:orar_archive", "type": "dispatches_to"},
+    {"from": "mod:archive_manager", "to": "mod:zip_archive", "type": "dispatches_to"},
+    {"from": "mod:archive_manager", "to": "mod:tar_archive", "type": "dispatches_to"},
+    {"from": "mod:archive_manager", "to": "mod:extended_archive", "type": "dispatches_to"},
+    {"from": "mod:extended_archive", "to": "mod:rar_inspector", "type": "uses_first_for_rar_listing"},
+    {"from": "mod:orar_archive", "to": "mod:deflate", "type": "depends_on"},
+    {"from": "mod:orar_archive", "to": "mod:crypto", "type": "depends_on"},
+    {"from": "mod:orar_archive", "to": "mod:recovery", "type": "depends_on"},
+    {"from": "mod:orar_archive", "to": "mod:binary_io", "type": "depends_on"},
+    {"from": "mod:zip_archive", "to": "mod:deflate", "type": "depends_on"},
+    {"from": "mod:zip_archive", "to": "mod:crypto", "type": "depends_on"},
+    {"from": "mod:zip_archive", "to": "mod:binary_io", "type": "depends_on"},
+    {"from": "mod:tar_archive", "to": "mod:deflate", "type": "depends_on"},
+    {"from": "mod:tests", "to": "mod:archive_manager", "type": "verifies"}
+  ],
+  "invariants": [
+    "openrar_core MUST remain 100% free of external third-party build dependencies so CMake builds offline on Windows and Linux.",
+    "All archive extraction paths MUST be validated with is_safe_relative_path() before writing to disk (Zip-Slip protection).",
+    "Never put Windows-only headers (<windows.h>) in public headers under include/openrar/.",
+    "Never block the Win32 UI thread for heavy compression/extraction; always wrap long operations in run_with_progress().",
+    "All compiler targets MUST build cleanly with zero warnings at /W4 (MSVC) and -Wall -Wextra -Wpedantic (GCC/Clang).",
+    "Brand and visual assets MUST remain original and trademark-clean."
+  ]
+}

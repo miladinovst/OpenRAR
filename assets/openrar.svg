@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Clean flat dark-zinc tile -->
+  <rect x="16" y="16" width="224" height="224" rx="50" fill="#18181B" stroke="#3F3F46" stroke-width="4"/>
+  <!-- Flat archive body -->
+  <rect x="56" y="62" width="144" height="138" rx="18" fill="#F4F4F5"/>
+  <!-- Cobalt lid -->
+  <path d="M56 80 Q56 62 74 62 H182 Q200 62 200 80 V98 H56 Z" fill="#2563EB"/>
+  <!-- Center zipper channel -->
+  <rect x="116" y="62" width="24" height="138" fill="#18181B"/>
+  <!-- Geometric zipper teeth -->
+  <rect x="116" y="70" width="12" height="11" fill="#F59E0B"/>
+  <rect x="128" y="87" width="12" height="11" fill="#F59E0B"/>
+  <rect x="116" y="104" width="12" height="11" fill="#F59E0B"/>
+  <rect x="128" y="121" width="12" height="11" fill="#F59E0B"/>
+  <rect x="116" y="138" width="12" height="11" fill="#F59E0B"/>
+  <!-- Zipper pull tab -->
+  <rect x="109" y="160" width="38" height="30" rx="8" fill="#F59E0B"/>
+  <rect x="121" y="170" width="14" height="10" rx="3" fill="#18181B"/>
+</svg>

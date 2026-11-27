@@ -1,0 +1,25 @@
+# Normalize line endings across Windows, Linux, and macOS
+* text=auto
+
+# Keep shell scripts strictly LF so Linux/macOS runners never fail on CRLF
+*.sh        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.json      text eol=lf
+*.md        text eol=lf
+*.hpp       text eol=lf
+*.cpp       text eol=lf
+*.cmake     text eol=lf
+CMakeLists.txt text eol=lf
+
+# Windows scripts and Inno Setup files
+*.ps1       text eol=crlf
+*.iss       text eol=crlf
+*.rc        text eol=crlf
+*.manifest  text eol=crlf
+
+# Binary assets
+*.ico       binary
+*.png       binary
+*.exe       binary
+*.zip       binary
