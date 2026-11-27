@@ -16,6 +16,10 @@
   <img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License"/>
 </p>
 
+<p align="center">
+  <img src="assets/screenshot.png" alt="OpenRAR Desktop GUI Screenshot" width="840"/>
+</p>
+
 ---
 
 ## Overview
@@ -196,7 +200,7 @@ OpenRAR/
 ├── .github/workflows/
 │   ├── ci.yml                 # Windows (MSVC), Linux (GCC/Clang) & macOS (Clang) CI
 │   └── release.yml            # Tag-triggered multi-OS GitHub Release workflow
-├── assets/                    # Flat vector icons (openrar.svg, openrar_logo.png, openrar.ico)
+├── assets/                    # Flat vector icons & GUI screenshot (openrar.svg, openrar.ico, screenshot.png)
 ├── docs/
 │   └── KNOWLEDGE_GRAPH.json   # Machine-readable module, feature, and hotspot graph
 ├── include/openrar/           # OS-agnostic C++20 public headers
