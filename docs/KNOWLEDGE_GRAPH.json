@@ -5,7 +5,7 @@
     "native_extension": ".orar",
     "language": "C++20",
     "build_system": "CMake (>=3.20)",
-    "license": "MIT",
+    "license": "OpenRAR Non-Commercial Public License (No Resale / No Paid Distribution)",
     "external_build_dependencies": [],
     "platforms": [
       "Windows (MSVC + Win32 GUI)",

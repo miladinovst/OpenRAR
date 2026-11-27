@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-18181B?style=flat-square" alt="Cross-Platform"/>
   <img src="https://img.shields.io/badge/Languages-13-7C3AED?style=flat-square" alt="13 Languages"/>
   <img src="https://img.shields.io/badge/Dependencies-Zero-16A34A?style=flat-square" alt="Zero Dependencies"/>
-  <img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License"/>
+  <img src="https://img.shields.io/badge/License-Non--Commercial-F59E0B?style=flat-square" alt="Non-Commercial License"/>
 </p>
 
 <p align="center">
@@ -222,7 +222,7 @@ OpenRAR/
 ├── SECURITY.md                # Security invariants and vulnerability disclosure
 ├── CMakeLists.txt             # Cross-platform CMake + CPack build configuration
 ├── build.ps1 / build.sh       # Single-command Windows and Unix build scripts
-└── LICENSE                    # MIT License
+└── LICENSE                    # OpenRAR Non-Commercial Public License
 ```
 
 ### Documentation
@@ -244,6 +244,14 @@ OpenRAR/
 
 ---
 
-## Legal and Trademark Notice
+## License, Collaboration & Legal Notice
 
-OpenRAR is an independent, clean-room open-source project licensed under the [MIT License](LICENSE). It is not affiliated with, endorsed by, or sponsored by win.rar GmbH, RARLAB, Corel/WinZip, or 7-Zip. Third-party format names (`.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.cab`, `.iso`) are used strictly to describe file-format compatibility and remain the property of their respective owners.
+OpenRAR is **free and open-source** to use, inspect, fork, collaborate on, and improve (pull requests and contributions are always welcome).
+
+**Strictly Forbidden:**
+- You may **not** charge money for this software or its downloads.
+- You may **not** sell, resell, or bundle OpenRAR (in original or modified form) as a paid digital product or paid service without explicit written permission from the author.
+
+See [LICENSE](LICENSE) for the full terms.
+
+**Trademark Notice:** OpenRAR is an independent, clean-room project and is not affiliated with, endorsed by, or sponsored by win.rar GmbH, RARLAB, Corel/WinZip, or 7-Zip. Third-party format names (`.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.cab`, `.iso`) are used strictly to describe file-format compatibility and remain the property of their respective owners.

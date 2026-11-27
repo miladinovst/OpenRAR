@@ -1,16 +1,28 @@
-MIT License
+OpenRAR Non-Commercial Public License
 
-Copyright (c) 2026 OpenRAR Contributors
+Copyright (c) 2026 Stefan Miladinovic & OpenRAR Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, publish, collaborate on, and distribute copies of the
+Software for personal, educational, research, and other non-commercial purposes,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Attribution and Notice:
+   The above copyright notice and this license notice must be included in all
+   copies or substantial portions of the Software.
+
+2. No Selling or Charging (Non-Commercial Restriction):
+   You may NOT sell, resell, rent, lease, sublicense for a fee, charge money
+   for downloads or access to, or package/distribute this Software (in original
+   or modified form) as a paid digital product or paid service without prior
+   written permission from the copyright holder (Stefan Miladinovic).
+
+3. Collaboration and Improvements:
+   Everyone is welcome to fork, study, improve, and submit pull requests or
+   open-source contributions back to the project, provided any redistributed
+   copies or derivative works remain free of charge under these same
+   non-commercial terms.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
