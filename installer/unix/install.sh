@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Cross-platform Linux & macOS installer for OpenRaR.
+# Cross-platform Linux & macOS installer for OpenRAR.
 # Usage:
 #   ./install.sh                  # Installs to /usr/local (root) or ~/.local (non-root)
 #   ./install.sh --prefix /opt/openrar
@@ -58,7 +58,7 @@ if [ -z "$BIN_CLI" ]; then
     exit 1
 fi
 
-echo "Installing OpenRaR to $PREFIX ..."
+echo "Installing OpenRAR to $PREFIX ..."
 mkdir -p "$PREFIX/bin"
 install -m 755 "$BIN_CLI" "$PREFIX/bin/openrar"
 if [ -n "$BIN_SFX" ]; then
@@ -75,7 +75,7 @@ if [ "$(uname -s)" = "Linux" ]; then
     cat > "$PREFIX/share/applications/openrar.desktop" <<EOF
 [Desktop Entry]
 Type=Application
-Name=OpenRaR
+Name=OpenRAR
 Comment=Open-Source Cross-Platform Archiver
 Exec=$PREFIX/bin/openrar
 Icon=openrar

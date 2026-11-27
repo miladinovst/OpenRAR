@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Cross-platform Linux & macOS uninstaller for OpenRaR.
+# Cross-platform Linux & macOS uninstaller for OpenRAR.
 set -euo pipefail
 
 if [ "$(id -u)" -eq 0 ]; then
@@ -16,9 +16,9 @@ elif [ "${1:-}" = "--system" ]; then
     PREFIX="/usr/local"
 fi
 
-echo "Removing OpenRaR from $PREFIX ..."
+echo "Removing OpenRAR from $PREFIX ..."
 rm -f "$PREFIX/bin/openrar"
 rm -f "$PREFIX/bin/openrar_sfx_stub"
 rm -f "$PREFIX/share/icons/hicolor/scalable/apps/openrar.svg"
 rm -f "$PREFIX/share/applications/openrar.desktop"
-echo "OpenRaR uninstalled."
+echo "OpenRAR uninstalled."

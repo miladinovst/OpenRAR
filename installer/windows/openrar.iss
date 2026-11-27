@@ -1,4 +1,4 @@
-; Inno Setup 6 installer script for OpenRaR (Windows x64)
+; Inno Setup 6 installer script for OpenRAR (Windows x64)
 ; Build with: iscc /DAppVersion=1.0.0 installer\windows\openrar.iss
 
 #ifndef AppVersion
@@ -7,19 +7,19 @@
 
 [Setup]
 AppId={{8D7A4D52-3E49-4C81-9E93-55D9C419E100}
-AppName=OpenRaR
+AppName=OpenRAR
 AppVersion={#AppVersion}
-AppPublisher=Stefan Miladinovic (OpenRaR)
-AppPublisherURL=https://github.com/miladinovst/openrar
-AppSupportURL=https://github.com/miladinovst/openrar/issues
-DefaultDirName={autopf}\OpenRaR
-DefaultGroupName=OpenRaR
+AppPublisher=Stefan Miladinovic (OpenRAR)
+AppPublisherURL=https://github.com/miladinovst/OpenRAR
+AppSupportURL=https://github.com/miladinovst/OpenRAR/issues
+DefaultDirName={autopf}\OpenRAR
+DefaultGroupName=OpenRAR
 AllowNoIcons=yes
 LicenseFile=..\..\LICENSE
 OutputDir=..\..\dist
-OutputBaseFilename=OpenRaR-Setup-{#AppVersion}-win64
+OutputBaseFilename=OpenRAR-Setup-{#AppVersion}-win64
 SetupIconFile=..\..\assets\openrar.ico
-UninstallDisplayIcon={app}\OpenRaR-GUI.exe
+UninstallDisplayIcon={app}\OpenRAR-GUI.exe
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern
@@ -30,7 +30,7 @@ ArchitecturesInstallIn64BitMode=x64compatible
 ChangesEnvironment=yes
 
 [Languages]
-; Official Inno Setup 6 built-in languages (OpenRaR itself supports all 13 UI languages at runtime)
+; Official Inno Setup 6 built-in languages (OpenRAR itself supports all 13 UI languages at runtime)
 Name: "english";    MessagesFile: "compiler:Default.isl"
 Name: "spanish";    MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
@@ -41,10 +41,10 @@ Name: "russian";    MessagesFile: "compiler:Languages\Russian.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 Name: "contextmenu"; Description: "Integrate into Windows Explorer right-click menu"; GroupDescription: "System Integration:"
-Name: "addpath";     Description: "Add OpenRaR CLI to PATH"; GroupDescription: "System Integration:"
+Name: "addpath";     Description: "Add OpenRAR CLI to PATH"; GroupDescription: "System Integration:"
 
 [Files]
-Source: "..\..\build\OpenRaR-GUI.exe";      DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\build\OpenRAR-GUI.exe";      DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\build\openrar.exe";          DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\build\openrar_sfx_stub.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\assets\openrar.ico";         DestDir: "{app}"; Flags: ignoreversion
@@ -52,13 +52,13 @@ Source: "..\..\README.md";                  DestDir: "{app}"; Flags: ignoreversi
 Source: "..\..\LICENSE";                    DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\OpenRaR"; Filename: "{app}\OpenRaR-GUI.exe"; IconFilename: "{app}\openrar.ico"
-Name: "{group}\{cm:UninstallProgram,OpenRaR}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\OpenRaR"; Filename: "{app}\OpenRaR-GUI.exe"; IconFilename: "{app}\openrar.ico"; Tasks: desktopicon
+Name: "{group}\OpenRAR"; Filename: "{app}\OpenRAR-GUI.exe"; IconFilename: "{app}\openrar.ico"
+Name: "{group}\{cm:UninstallProgram,OpenRAR}"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\OpenRAR"; Filename: "{app}\OpenRAR-GUI.exe"; IconFilename: "{app}\openrar.ico"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\openrar.exe"; Parameters: "install-menu"; Flags: runhidden; Tasks: contextmenu
-Filename: "{app}\OpenRaR-GUI.exe"; Description: "{cm:LaunchProgram,OpenRaR}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\OpenRAR-GUI.exe"; Description: "{cm:LaunchProgram,OpenRAR}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 Filename: "{app}\openrar.exe"; Parameters: "uninstall-menu"; Flags: runhidden; RunOnceId: "RemoveShellMenu"

@@ -1,4 +1,4 @@
-name: Release OpenRaR (Windows, Linux, macOS)
+name: Release OpenRAR (Windows, Linux, macOS)
 
 on:
   push:
@@ -39,8 +39,8 @@ jobs:
         with:
           name: release-windows
           path: |
-            dist/OpenRaR-*-win64.zip
-            dist/OpenRaR-Setup-*-win64.exe
+            dist/OpenRAR-*-win64.zip
+            dist/OpenRAR-Setup-*-win64.exe
 
   build-linux:
     runs-on: ubuntu-latest
@@ -69,12 +69,12 @@ jobs:
       - name: Package Tarball & DEB
         run: |
           V="${{ steps.ver.outputs.version }}"
-          mkdir -p dist "dist/OpenRaR-$V-linux-x86_64"
+          mkdir -p dist "dist/OpenRAR-$V-linux-x86_64"
           cp build/openrar build/openrar_sfx_stub assets/openrar.svg README.md LICENSE \
              installer/unix/install.sh installer/unix/uninstall.sh \
-             "dist/OpenRaR-$V-linux-x86_64/"
-          chmod +x "dist/OpenRaR-$V-linux-x86_64/install.sh" "dist/OpenRaR-$V-linux-x86_64/uninstall.sh"
-          tar -C dist -czf "dist/OpenRaR-$V-linux-x86_64.tar.gz" "OpenRaR-$V-linux-x86_64"
+             "dist/OpenRAR-$V-linux-x86_64/"
+          chmod +x "dist/OpenRAR-$V-linux-x86_64/install.sh" "dist/OpenRAR-$V-linux-x86_64/uninstall.sh"
+          tar -C dist -czf "dist/OpenRAR-$V-linux-x86_64.tar.gz" "OpenRAR-$V-linux-x86_64"
           (cd build && cpack -G DEB)
           cp build/*.deb dist/
 
@@ -82,7 +82,7 @@ jobs:
         with:
           name: release-linux
           path: |
-            dist/OpenRaR-*-linux-x86_64.tar.gz
+            dist/OpenRAR-*-linux-x86_64.tar.gz
             dist/*.deb
 
   build-macos:
@@ -111,21 +111,21 @@ jobs:
         run: |
           V="${{ steps.ver.outputs.version }}"
           ARCH="$(uname -m)"
-          mkdir -p dist "dist/OpenRaR-$V-macos-$ARCH"
+          mkdir -p dist "dist/OpenRAR-$V-macos-$ARCH"
           cp build/openrar build/openrar_sfx_stub assets/openrar.svg README.md LICENSE \
              installer/unix/install.sh installer/unix/uninstall.sh \
-             "dist/OpenRaR-$V-macos-$ARCH/"
-          chmod +x "dist/OpenRaR-$V-macos-$ARCH/install.sh" "dist/OpenRaR-$V-macos-$ARCH/uninstall.sh"
-          tar -C dist -czf "dist/OpenRaR-$V-macos-$ARCH.tar.gz" "OpenRaR-$V-macos-$ARCH"
+             "dist/OpenRAR-$V-macos-$ARCH/"
+          chmod +x "dist/OpenRAR-$V-macos-$ARCH/install.sh" "dist/OpenRAR-$V-macos-$ARCH/uninstall.sh"
+          tar -C dist -czf "dist/OpenRAR-$V-macos-$ARCH.tar.gz" "OpenRAR-$V-macos-$ARCH"
 
       - uses: actions/upload-artifact@v4
         with:
           name: release-macos
-          path: dist/OpenRaR-*-macos-*.tar.gz
+          path: dist/OpenRAR-*-macos-*.tar.gz
 
   publish-release:
     needs: [build-windows, build-linux, build-macos]
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: always() && startsWith(github.ref, 'refs/tags/v') && needs.build-windows.result == 'success' && needs.build-linux.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4

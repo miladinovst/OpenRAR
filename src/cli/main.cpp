@@ -1,4 +1,4 @@
-// Cross-platform OpenRaR command-line interface (Windows, Linux, macOS).
+// Cross-platform OpenRAR command-line interface (Windows, Linux, macOS).
 // Parses single-letter commands (a, x, e, l, t, d, c, r, f, cv, sfx, b, info) and
 // short switches (-p, -hp, -m0..5, -s, -rr, -v, -o+/-o-/-or, -df, -t, -y).
 
@@ -47,7 +47,7 @@ static std::string get_env_str(const char* name) {
 
 static void print_usage() {
     std::cout <<
-R"(OpenRaR 1.0 - Open-Source Cross-Platform Archiver (C++20)
+R"(OpenRAR 1.0 - Open-Source Cross-Platform Archiver (C++20)
 Usage: openrar <command> [switches] <archive/args...>
 
 Commands:
@@ -65,8 +65,8 @@ Commands:
   b    Benchmark multi-threaded compression speed
   info Display detailed archive properties
   lang List all 13 supported UI/CLI languages and active locale
-  install-menu   Register Windows Explorer right-click OpenRaR submenu (HKCU, no admin)
-  uninstall-menu Remove Windows Explorer right-click OpenRaR submenu
+  install-menu   Register Windows Explorer right-click OpenRAR submenu (HKCU, no admin)
+  uninstall-menu Remove Windows Explorer right-click OpenRAR submenu
 
 Switches:
   --lang=<code> Override display language (en, zh, es, hi, ar, pt, id, fr, ja, ru, sr, hr, bs)
@@ -382,7 +382,7 @@ int main(int argc, char* argv[]) {
     if (cmd == "b") {
         unsigned int threads = pos_args.size() >= 1 ? static_cast<unsigned int>(std::stoul(pos_args[0])) : 0;
         double secs = pos_args.size() >= 2 ? std::stod(pos_args[1]) : 2.0;
-        std::cout << "Running OpenRaR multi-threaded benchmark...\n";
+        std::cout << "Running OpenRAR multi-threaded benchmark...\n";
         auto bm = ArchiveManager::run_benchmark(threads, secs);
         std::cout << "Threads:           " << bm.threads << "\n"
                   << "Duration:          " << std::fixed << std::setprecision(2) << bm.duration_seconds << " s\n"
@@ -440,7 +440,7 @@ int main(int argc, char* argv[]) {
     // -----------------------------------------------------------------------
     if (cmd == "install-menu") {
         fs::path self_dir = fs::absolute(fs::path(argv[0])).parent_path();
-        fs::path gui = self_dir / "OpenRaR-GUI.exe";
+        fs::path gui = self_dir / "OpenRAR-GUI.exe";
         fs::path cli = self_dir / "openrar.exe";
         std::string err;
         if (!ArchiveManager::register_shell_context_menu(gui, cli, &err)) {

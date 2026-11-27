@@ -179,7 +179,7 @@ LRESULT CALLBACK AddDialogProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             st->cb_fmt = CreateWindowW(L"COMBOBOX", nullptr, WS_CHILD | WS_VISIBLE | WS_TABSTOP | CBS_DROPDOWNLIST,
                                        14, y + 20, 220, 140, hwnd, reinterpret_cast<HMENU>(502), hi, nullptr);
             sf(st->cb_fmt);
-            SendMessageW(st->cb_fmt, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"OpenRaR (.orar) - Solid/AES/Recovery"));
+            SendMessageW(st->cb_fmt, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"OpenRAR (.orar) - Solid/AES/Recovery"));
             SendMessageW(st->cb_fmt, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"ZIP (.zip) - Universal"));
             SendMessageW(st->cb_fmt, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"7-Zip (.7z) - High Compression"));
             SendMessageW(st->cb_fmt, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"TAR.GZ (.tar.gz) - Linux/Unix"));
@@ -418,7 +418,7 @@ LRESULT CALLBACK ProgressDlgProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 bool show_input_dialog(HWND owner, HFONT font, const std::wstring& title, const std::wstring& label,
                        std::wstring& value, bool password, bool multiline) {
     InputDialogState st{label, value, password, multiline, false, nullptr, font};
-    run_modal_dialog(owner, L"OpenRaRInputDlg", InputDialogProc, title.c_str(), 436, multiline ? 235 : 150, &st);
+    run_modal_dialog(owner, L"OpenRARInputDlg", InputDialogProc, title.c_str(), 436, multiline ? 235 : 150, &st);
     if (st.accepted) value = st.value;
     return st.accepted;
 }
@@ -426,7 +426,7 @@ bool show_input_dialog(HWND owner, HFONT font, const std::wstring& title, const 
 int show_wizard_dialog(HWND owner, HFONT font) {
     WizardState st{0, font, nullptr, nullptr, nullptr};
     auto title = tr_w(i18n::StrKey::DlgWizardTitle);
-    run_modal_dialog(owner, L"OpenRaRWizardDlg", WizardDlgProc, title.c_str(), 410, 230, &st);
+    run_modal_dialog(owner, L"OpenRARWizardDlg", WizardDlgProc, title.c_str(), 410, 230, &st);
     return st.choice;
 }
 
@@ -436,7 +436,7 @@ bool show_add_dialog(HWND owner, HFONT font, fs::path& out_path, CreateOptions& 
     st.opts = opts;
     st.font = font;
     auto title = tr_w(i18n::StrKey::DlgAddTitle);
-    run_modal_dialog(owner, L"OpenRaRAddDlg", AddDialogProc, title.c_str(), 516, 395, &st);
+    run_modal_dialog(owner, L"OpenRARAddDlg", AddDialogProc, title.c_str(), 516, 395, &st);
     if (st.accepted) { out_path = st.output_path; opts = st.opts; }
     return st.accepted;
 }
@@ -444,7 +444,7 @@ bool show_add_dialog(HWND owner, HFONT font, fs::path& out_path, CreateOptions& 
 bool show_extract_dialog(HWND owner, HFONT font, ExtractOptions& opts, bool& open_folder_after) {
     ExtractDialogState st{opts, open_folder_after, false, font};
     auto title = tr_w(i18n::StrKey::DlgExtractTitle);
-    run_modal_dialog(owner, L"OpenRaRExtractDlg", ExtractDialogProc, title.c_str(), 482, 315, &st);
+    run_modal_dialog(owner, L"OpenRARExtractDlg", ExtractDialogProc, title.c_str(), 482, 315, &st);
     if (st.accepted) { opts = st.opts; open_folder_after = st.open_folder_after; }
     return st.accepted;
 }
@@ -467,7 +467,7 @@ OperationResult run_with_progress(
         st.finished.store(true);
     });
 
-    run_modal_dialog(owner, L"OpenRaRProgressDlg", ProgressDlgProc, title.c_str(), 458, 168, &st);
+    run_modal_dialog(owner, L"OpenRARProgressDlg", ProgressDlgProc, title.c_str(), 458, 168, &st);
     if (worker.joinable()) worker.join();
     return st.result;
 }

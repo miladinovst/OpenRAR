@@ -46,13 +46,13 @@ int main(int argc, char* argv[]) {
     fs::path self_path = get_self_executable_path(argc > 0 ? argv[0] : nullptr);
     auto self_bytes = read_file_bytes(self_path);
     if (self_bytes.size() < kSfxTrailerSize) {
-        std::cerr << "OpenRaR SFX: Not a valid self-extracting archive.\n";
+        std::cerr << "OpenRAR SFX: Not a valid self-extracting archive.\n";
         return 1;
     }
 
     const uint8_t* trailer = self_bytes.data() + self_bytes.size() - kSfxTrailerSize;
     if (std::memcmp(trailer + 16, kSfxMagic, 8) != 0) {
-        std::cerr << "OpenRaR SFX: No embedded archive payload found.\n";
+        std::cerr << "OpenRAR SFX: No embedded archive payload found.\n";
         return 1;
     }
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         arc_size   |= static_cast<uint64_t>(trailer[8 + i]) << (i * 8);
     }
     if (arc_offset + arc_size > self_bytes.size() - kSfxTrailerSize) {
-        std::cerr << "OpenRaR SFX: Embedded archive trailer is corrupted.\n";
+        std::cerr << "OpenRAR SFX: Embedded archive trailer is corrupted.\n";
         return 1;
     }
 
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
         if (arg.starts_with("-p")) {
             password = arg.substr(2);
         } else if (arg == "-h" || arg == "--help") {
-            std::cout << "OpenRaR Self-Extracting Archive\n"
+            std::cout << "OpenRAR Self-Extracting Archive\n"
                       << "Usage: " << path_to_utf8(self_path.filename()) << " [destination_dir] [-p<password>]\n";
             return 0;
         } else {
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
     fs::path tmp_arc = fs::temp_directory_path(ec) /
         ("openrar_sfx_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) + ".bin");
     if (!write_file_bytes(tmp_arc, self_bytes.data() + arc_offset, static_cast<size_t>(arc_size))) {
-        std::cerr << "OpenRaR SFX: Failed creating temporary extraction buffer.\n";
+        std::cerr << "OpenRAR SFX: Failed creating temporary extraction buffer.\n";
         return 1;
     }
 
@@ -97,10 +97,10 @@ int main(int argc, char* argv[]) {
     fs::remove(tmp_arc, ec);
 
     if (!res.success) {
-        std::cerr << "OpenRaR SFX Error: " << res.message << "\n";
+        std::cerr << "OpenRAR SFX Error: " << res.message << "\n";
         for (const auto& e : res.errors) std::cerr << "  - " << e << "\n";
         return 1;
     }
-    std::cout << "OpenRaR SFX: " << res.message << " -> " << path_to_utf8(dest) << "\n";
+    std::cout << "OpenRAR SFX: " << res.message << " -> " << path_to_utf8(dest) << "\n";
     return 0;
 }

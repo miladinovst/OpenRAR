@@ -159,12 +159,12 @@ HWND create_app_toolbar(HWND parent, HINSTANCE hinst, int control_id) {
         WNDCLASSW wc{};
         wc.lpfnWndProc = ToolbarWndProc;
         wc.hInstance = hinst;
-        wc.lpszClassName = L"OpenRaRToolbar";
+        wc.lpszClassName = L"OpenRARToolbar";
         wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
         RegisterClassW(&wc);
         registered = true;
     }
-    return CreateWindowW(L"OpenRaRToolbar", L"", WS_CHILD | WS_VISIBLE,
+    return CreateWindowW(L"OpenRARToolbar", L"", WS_CHILD | WS_VISIBLE,
                          0, 0, 800, 66, parent,
                          reinterpret_cast<HMENU>(static_cast<INT_PTR>(control_id)), hinst, nullptr);
 }

@@ -8,7 +8,7 @@
 
 ## Built-In Security Invariants
 
-OpenRaR enforces the following security guarantees across `openrar_core`:
+OpenRAR enforces the following security guarantees across `openrar_core`:
 
 1. **Zip-Slip Path Traversal Protection**: Every extracted archive entry path is normalized and validated via `is_safe_relative_path()` before creating directories or writing files. Absolute paths, drive letters, and `..` traversal components are rejected.
 2. **Authenticated Encryption**: Native `.orar` archives encrypt payloads and optional headers (`-hp`) with AES-256-GCM and keys derived via PBKDF2-HMAC-SHA256 with OS CSPRNG salts (`BCryptGenRandom` on Windows, `/dev/urandom` on POSIX).

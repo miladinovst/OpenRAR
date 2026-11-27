@@ -263,7 +263,7 @@ inline void paint_toolbar_icon(Gdiplus::Graphics& g, ToolbarIcon icon, float x, 
     g.Restore(st);
 }
 
-// Create fallback HICON from the OpenRaR vault icon (primary icon is loaded from assets/openrar.ico via app.rc)
+// Create fallback HICON from the OpenRAR vault icon (primary icon is loaded from assets/openrar.ico via app.rc)
 inline HICON create_app_icon(int px = 32) {
     Gdiplus::Bitmap bmp(px, px, PixelFormat32bppARGB);
     Gdiplus::Graphics g(&bmp);

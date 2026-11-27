@@ -1,2 +1,2 @@
-// Windows executable icon resource (embedded into OpenRaR-GUI.exe, openrar.exe, and SFX stub)
+// Windows executable icon resource (embedded into OpenRAR-GUI.exe, openrar.exe, and SFX stub)
 101 ICON "../../assets/openrar.ico"

@@ -1,4 +1,4 @@
-# One-command Windows build script for OpenRaR (C++20)
+# One-command Windows build script for OpenRAR (C++20)
 param(
     [switch]$RunGui,
     [switch]$Test
@@ -22,7 +22,7 @@ $env:PATH = "$msvc\bin\Hostx64\x64;$vsPath\Common7\IDE\CommonExtensions\Microsof
 $env:INCLUDE = "$msvc\include;$sdk\Include\$sdkVer\ucrt;$sdk\Include\$sdkVer\um;$sdk\Include\$sdkVer\shared;$sdk\Include\$sdkVer\winrt"
 $env:LIB = "$msvc\lib\x64;$sdk\Lib\$sdkVer\ucrt\x64;$sdk\Lib\$sdkVer\um\x64"
 
-Stop-Process -Name "OpenRaR-GUI" -Force -ErrorAction SilentlyContinue
+Stop-Process -Name "OpenRAR-GUI" -Force -ErrorAction SilentlyContinue
 cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 
@@ -30,5 +30,5 @@ if ($Test) {
     & .\build\openrar_tests.exe
 }
 if ($RunGui) {
-    Start-Process ".\build\OpenRaR-GUI.exe"
+    Start-Process ".\build\OpenRAR-GUI.exe"
 }

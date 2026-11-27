@@ -435,7 +435,7 @@ OperationResult ExtendedArchive::create_rar(const fs::path& archive_path,
     if (r.exit_code != 0) {
         return OperationResult::fail(
             "Creating .rar archives requires the proprietary RAR command-line tool (rar.exe / rar) to be installed on your system. "
-            "OpenRaR natively creates .orar (with solid, AES-256-GCM, recovery records, and split volumes), .zip, .7z, and .tar.gz without extra tools.");
+            "OpenRAR natively creates .orar (with solid, AES-256-GCM, recovery records, and split volumes), .zip, .7z, and .tar.gz without extra tools.");
     }
     auto res = OperationResult::ok("Created RAR archive", inputs.size(), 0, secs);
     res.output_files.push_back(abs_out);

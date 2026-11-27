@@ -20,7 +20,7 @@ inline fs::path get_config_file_path() {
     PWSTR appdata = nullptr;
     fs::path dir;
     if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &appdata)) && appdata) {
-        dir = fs::path(appdata) / "OpenRaR";
+        dir = fs::path(appdata) / "OpenRAR";
         CoTaskMemFree(appdata);
     } else {
         dir = get_exe_path().parent_path();

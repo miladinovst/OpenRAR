@@ -126,7 +126,7 @@ OperationResult ArchiveManager::create(const fs::path& archive_path,
         case ArchiveFormat::Rar:
             return ExtendedArchive::create_rar(archive_path, inputs, options);
         default:
-            return OperationResult::fail("Creating archives in format '" + format_name(fmt) + "' is not supported; use OpenRaR (.orar), ZIP, 7z, TAR, or TAR.GZ");
+            return OperationResult::fail("Creating archives in format '" + format_name(fmt) + "' is not supported; use OpenRAR (.orar), ZIP, 7z, TAR, or TAR.GZ");
     }
 }
 
@@ -229,7 +229,7 @@ OperationResult ArchiveManager::add_entries(const fs::path& archive_path,
     if (fmt == ArchiveFormat::Zip) return ZipArchive::add_entries(archive_path, inputs, options);
     if (fmt == ArchiveFormat::Orar) return OrarArchive::add_entries(archive_path, inputs, options);
     if (fmt == ArchiveFormat::Rar) return ExtendedArchive::create_rar(archive_path, inputs, options);
-    return OperationResult::fail("Adding entries to existing archives is supported for ZIP, OpenRaR (.orar), and RAR (when rar CLI is installed)");
+    return OperationResult::fail("Adding entries to existing archives is supported for ZIP, OpenRAR (.orar), and RAR (when rar CLI is installed)");
 }
 
 OperationResult ArchiveManager::delete_entries(const fs::path& archive_path,
@@ -238,7 +238,7 @@ OperationResult ArchiveManager::delete_entries(const fs::path& archive_path,
     auto fmt = detect_format_from_file(archive_path);
     if (fmt == ArchiveFormat::Zip) return ZipArchive::delete_entries(archive_path, entries_to_delete);
     if (fmt == ArchiveFormat::Orar) return OrarArchive::delete_entries(archive_path, entries_to_delete, password);
-    return OperationResult::fail("Deleting entries is supported for ZIP and OpenRaR (.orar)");
+    return OperationResult::fail("Deleting entries is supported for ZIP and OpenRAR (.orar)");
 }
 
 OperationResult ArchiveManager::set_comment(const fs::path& archive_path,
@@ -247,14 +247,14 @@ OperationResult ArchiveManager::set_comment(const fs::path& archive_path,
     auto fmt = detect_format_from_file(archive_path);
     if (fmt == ArchiveFormat::Zip) return ZipArchive::set_comment(archive_path, comment);
     if (fmt == ArchiveFormat::Orar) return OrarArchive::set_comment(archive_path, comment, password);
-    return OperationResult::fail("Archive comments are supported for ZIP and OpenRaR (.orar)");
+    return OperationResult::fail("Archive comments are supported for ZIP and OpenRAR (.orar)");
 }
 
 OperationResult ArchiveManager::repair(const fs::path& corrupted_path, const fs::path& repaired_path) {
     auto fmt = detect_format_from_file(corrupted_path);
     if (fmt == ArchiveFormat::Orar) return OrarArchive::repair(corrupted_path, repaired_path);
     if (fmt == ArchiveFormat::Zip) return ZipArchive::repair(corrupted_path, repaired_path);
-    return OperationResult::fail("Repair is supported for OpenRaR (.orar) and ZIP archives");
+    return OperationResult::fail("Repair is supported for OpenRAR (.orar) and ZIP archives");
 }
 
 OperationResult ArchiveManager::convert_archives(const std::vector<fs::path>& source_archives,
@@ -436,7 +436,7 @@ BenchmarkResult ArchiveManager::run_benchmark(unsigned int threads, double targe
     constexpr size_t kBufSize = 256 * 1024;
     std::vector<uint8_t> sample(kBufSize);
     const char* phrases[] = {
-        "OpenRaR high-performance cross-platform compression benchmark data block. ",
+        "OpenRAR high-performance cross-platform compression benchmark data block. ",
         "The quick brown fox jumps over the lazy dog 0123456789! ",
         "AES-256-GCM + RFC-1951 Deflate + Reed-Solomon/Parity Recovery Record. ",
         "C++20 Native Portable Engine for Windows and Linux. \n"
@@ -512,7 +512,7 @@ bool ArchiveManager::register_shell_context_menu(const fs::path& gui_exe_path,
     std::wstring gui = gui_exe_path.wstring();
     bool ok = true;
 
-    // Helper: creates a cascading "OpenRaR >" submenu entry with icon and ordered sub-actions
+    // Helper: creates a cascading "OpenRAR >" submenu entry with icon and ordered sub-actions
     auto add_sub_item = [&](const std::wstring& menu_root, const std::wstring& key_name,
                             const std::wstring& label, const std::wstring& args) {
         std::wstring item_key = menu_root + L"\\shell\\" + key_name;
@@ -521,11 +521,11 @@ bool ArchiveManager::register_shell_context_menu(const fs::path& gui_exe_path,
         ok &= set_reg_str(HKEY_CURRENT_USER, item_key + L"\\command", L"", L"\"" + gui + L"\" " + args);
     };
 
-    // 1. Cascading "OpenRaR >" submenu on ANY file or folder
-    for (const wchar_t* target_root : {L"Software\\Classes\\*\\shell\\OpenRaR",
-                                       L"Software\\Classes\\Directory\\shell\\OpenRaR"}) {
+    // 1. Cascading "OpenRAR >" submenu on ANY file or folder
+    for (const wchar_t* target_root : {L"Software\\Classes\\*\\shell\\OpenRAR",
+                                       L"Software\\Classes\\Directory\\shell\\OpenRAR"}) {
         std::wstring root(target_root);
-        ok &= set_reg_str(HKEY_CURRENT_USER, root, L"MUIVerb", L"OpenRaR");
+        ok &= set_reg_str(HKEY_CURRENT_USER, root, L"MUIVerb", L"OpenRAR");
         ok &= set_reg_str(HKEY_CURRENT_USER, root, L"Icon", gui);
         ok &= set_reg_str(HKEY_CURRENT_USER, root, L"SubCommands", L"");
         add_sub_item(root, L"01_AddArchive", L"Add to archive...",       L"--add \"%1\"");
@@ -534,13 +534,13 @@ bool ArchiveManager::register_shell_context_menu(const fs::path& gui_exe_path,
         add_sub_item(root, L"04_Quick7z",    L"Add to .7z (instant)",    L"--quick-7z \"%1\"");
     }
 
-    // 2. Cascading "OpenRaR >" archive menu on supported archive extensions
+    // 2. Cascading "OpenRAR >" archive menu on supported archive extensions
     for (const wchar_t* ext : {L".rar", L".7z", L".zip", L".orar", L".tar", L".gz", L".tgz", L".xz", L".bz2", L".zst", L".cab", L".iso"}) {
-        std::wstring root = std::wstring(L"Software\\Classes\\SystemFileAssociations\\") + ext + L"\\shell\\OpenRaR";
-        ok &= set_reg_str(HKEY_CURRENT_USER, root, L"MUIVerb", L"OpenRaR");
+        std::wstring root = std::wstring(L"Software\\Classes\\SystemFileAssociations\\") + ext + L"\\shell\\OpenRAR";
+        ok &= set_reg_str(HKEY_CURRENT_USER, root, L"MUIVerb", L"OpenRAR");
         ok &= set_reg_str(HKEY_CURRENT_USER, root, L"Icon", gui);
         ok &= set_reg_str(HKEY_CURRENT_USER, root, L"SubCommands", L"");
-        add_sub_item(root, L"01_Open",          L"Open with OpenRaR",     L"\"%1\"");
+        add_sub_item(root, L"01_Open",          L"Open with OpenRAR",     L"\"%1\"");
         add_sub_item(root, L"02_ExtractDialog", L"Extract files...",      L"--extract \"%1\"");
         add_sub_item(root, L"03_ExtractHere",   L"Extract Here",          L"--extract-here \"%1\"");
         add_sub_item(root, L"04_ExtractFolder", L"Extract to folder\\",   L"--extract-folder \"%1\"");
@@ -548,30 +548,30 @@ bool ArchiveManager::register_shell_context_menu(const fs::path& gui_exe_path,
     }
 
     // Clean up any legacy flat keys from earlier versions
-    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRaR_Add");
-    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\Directory\\shell\\OpenRaR_Add");
+    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRAR_Add");
+    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\Directory\\shell\\OpenRAR_Add");
 
     if (!ok && err) *err = "Failed writing one or more HKCU registry keys";
     return ok;
 }
 
 bool ArchiveManager::unregister_shell_context_menu(std::string*) {
-    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRaR");
-    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\Directory\\shell\\OpenRaR");
-    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRaR_Add");
-    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\Directory\\shell\\OpenRaR_Add");
+    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRAR");
+    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\Directory\\shell\\OpenRAR");
+    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRAR_Add");
+    RegDeleteTreeW(HKEY_CURRENT_USER, L"Software\\Classes\\Directory\\shell\\OpenRAR_Add");
     for (const wchar_t* ext : {L".rar", L".7z", L".zip", L".orar", L".tar", L".gz", L".tgz", L".xz", L".bz2", L".zst", L".cab", L".iso"}) {
         std::wstring base = std::wstring(L"Software\\Classes\\SystemFileAssociations\\") + ext + L"\\shell\\";
-        RegDeleteTreeW(HKEY_CURRENT_USER, (base + L"OpenRaR").c_str());
-        RegDeleteTreeW(HKEY_CURRENT_USER, (base + L"OpenRaR_Open").c_str());
-        RegDeleteTreeW(HKEY_CURRENT_USER, (base + L"OpenRaR_ExtractHere").c_str());
+        RegDeleteTreeW(HKEY_CURRENT_USER, (base + L"OpenRAR").c_str());
+        RegDeleteTreeW(HKEY_CURRENT_USER, (base + L"OpenRAR_Open").c_str());
+        RegDeleteTreeW(HKEY_CURRENT_USER, (base + L"OpenRAR_ExtractHere").c_str());
     }
     return true;
 }
 
 bool ArchiveManager::is_shell_context_menu_registered() {
     HKEY hkey = nullptr;
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRaR", 0, KEY_READ, &hkey) == ERROR_SUCCESS) {
+    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Classes\\*\\shell\\OpenRAR", 0, KEY_READ, &hkey) == ERROR_SUCCESS) {
         RegCloseKey(hkey);
         return true;
     }

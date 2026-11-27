@@ -1,6 +1,6 @@
-# OpenRaR Architecture
+# OpenRAR Architecture
 
-OpenRaR is organized as a layered, zero-dependency C++20 codebase. The core engine, CLI, SFX stub, and test suite compile identically on Windows (MSVC) and Linux/macOS (GCC/Clang), while Windows-specific UI code stays isolated under `src/gui/`.
+OpenRAR is organized as a layered, zero-dependency C++20 codebase. The core engine, CLI, SFX stub, and test suite compile identically on Windows (MSVC) and Linux/macOS (GCC/Clang), while Windows-specific UI code stays isolated under `src/gui/`.
 
 ---
 
@@ -10,7 +10,7 @@ OpenRaR is organized as a layered, zero-dependency C++20 codebase. The core engi
 +-----------------------------------------------------------------------+
 |                       Presentation / Entrypoints                      |
 |  +---------------------+  +------------------+  +------------------+  |
-|  | OpenRaR-GUI (Win32) |  |  openrar (CLI)   |  | openrar_sfx_stub |  |
+|  | OpenRAR-GUI (Win32) |  |  openrar (CLI)   |  | openrar_sfx_stub |  |
 |  |   src/gui/*.cpp     |  |  src/cli/main.cpp|  | src/sfx/sfx_stub |  |
 |  +----------+----------+  +--------+---------+  +--------+---------+  |
 +-------------|----------------------|---------------------|------------+
@@ -64,11 +64,11 @@ OpenRaR is organized as a layered, zero-dependency C++20 codebase. The core engi
 | `extended_archive.hpp/.cpp` | Cross-platform libarchive (`bsdtar`) and `unrar`/`7z` backend for `.rar`, `.7z`, `.tar.xz`, `.tar.bz2`, `.tar.zst`, `.cab`, `.iso` |
 | `archive_manager.hpp/.cpp` | Single public facade dispatching to format handlers plus Search, Batch Convert, SFX builder, Multi-threaded Benchmark, and Windows HKCU Shell integration |
 
-### `src/gui/` (Windows Win32 GUI: `OpenRaR-GUI.exe`)
+### `src/gui/` (Windows Win32 GUI: `OpenRAR-GUI.exe`)
 | File | Responsibility |
 | :--- | :--- |
 | `gui_common.hpp` | Control/Menu IDs, UTF-8/UTF-16 & `tr_w`/`tr_w_plain` localization helpers, date/number formatting, Shell file/folder dialogs |
-| `gui_config.hpp` | Persistent `%APPDATA%\OpenRaR\config.ini` (Favorites, last directory, window size, and language code) |
+| `gui_config.hpp` | Persistent `%APPDATA%\OpenRAR\config.ini` (Favorites, last directory, window size, and language code) |
 | `toolbar_icons.hpp` | GDI+ vector renderer for the 9 toolbar actions |
 | `gui_toolbar.hpp/.cpp` | Double-buffered custom 9-button desktop toolbar control |
 | `gui_dialogs.hpp/.cpp` | Modal dialogs: Input prompt, Wizard, Add-to-Archive, Extract options, and non-blocking multi-threaded Live Progress dialog |
@@ -77,7 +77,7 @@ OpenRaR is organized as a layered, zero-dependency C++20 codebase. The core engi
 
 ---
 
-## OpenRaR (`.orar`) Binary Format
+## OpenRAR (`.orar`) Binary Format
 
 ```text
 +-------------------------------------------------------------------+

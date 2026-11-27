@@ -1,16 +1,16 @@
 <#
 .SYNOPSIS
-    Cleanly uninstalls OpenRaR from the current user profile.
+    Cleanly uninstalls OpenRAR from the current user profile.
 #>
 param(
-    [string]$InstallDir = (Join-Path $env:LOCALAPPDATA "OpenRaR")
+    [string]$InstallDir = (Join-Path $env:LOCALAPPDATA "OpenRAR")
 )
 
 $ErrorActionPreference = "SilentlyContinue"
 
-Write-Host "Uninstalling OpenRaR from $InstallDir ..." -ForegroundColor Cyan
+Write-Host "Uninstalling OpenRAR from $InstallDir ..." -ForegroundColor Cyan
 
-Stop-Process -Name "OpenRaR-GUI" -Force -ErrorAction SilentlyContinue
+Stop-Process -Name "OpenRAR-GUI" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 150
 
 $CliExe = Join-Path $InstallDir "openrar.exe"
@@ -20,10 +20,10 @@ if (Test-Path $CliExe) {
 }
 
 # Remove shortcuts
-$StartMenuDir = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\OpenRaR"
+$StartMenuDir = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\OpenRAR"
 if (Test-Path $StartMenuDir) { Remove-Item -Recurse -Force $StartMenuDir }
 
-$DesktopLink = Join-Path ([Environment]::GetFolderPath("Desktop")) "OpenRaR.lnk"
+$DesktopLink = Join-Path ([Environment]::GetFolderPath("Desktop")) "OpenRAR.lnk"
 if (Test-Path $DesktopLink) { Remove-Item -Force $DesktopLink }
 
 # Remove from user PATH
@@ -34,7 +34,7 @@ if ($curPath) {
 }
 
 # Remove Installed Apps registry key
-$UninstKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenRaR"
+$UninstKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenRAR"
 if (Test-Path $UninstKey) { Remove-Item -Recurse -Force $UninstKey }
 
 # Remove install folder (skip self-lock warning if run from inside InstallDir)
@@ -45,4 +45,4 @@ if (Test-Path $InstallDir) {
     Remove-Item -Recurse -Force $InstallDir -ErrorAction SilentlyContinue
 }
 
-Write-Host "OpenRaR uninstalled." -ForegroundColor Green
+Write-Host "OpenRAR uninstalled." -ForegroundColor Green

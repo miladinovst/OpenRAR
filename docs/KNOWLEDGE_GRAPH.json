@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3.0",
   "project": {
-    "name": "OpenRaR",
+    "name": "OpenRAR",
     "native_extension": ".orar",
     "language": "C++20",
     "build_system": "CMake (>=3.20)",
@@ -90,7 +90,7 @@
         "platform": "cross-platform",
         "status": "done",
         "key_symbols": ["OrarArchive::create", "OrarArchive::extract", "OrarArchive::list", "OrarArchive::test", "OrarArchive::repair"],
-        "summary": "Native OpenRaR (.orar) format: solid & parallel compression, AES-256-GCM payload & header encryption (-hp), Recovery Records (-rr), split volumes, comments, CRC32+SHA-256."
+        "summary": "Native OpenRAR (.orar) format: solid & parallel compression, AES-256-GCM payload & header encryption (-hp), Recovery Records (-rr), split volumes, comments, CRC32+SHA-256."
       },
       {
         "id": "mod:zip_archive",
@@ -199,7 +199,7 @@
         "platform": "cross-platform",
         "status": "done",
         "key_symbols": ["test_crypto", "test_deflate_stress", "test_zip_lifecycle", "test_orar_full_features", "test_extract_modes_and_security", "test_tar_longname", "test_7z_convert_find_bench", "test_rar5_inspector", "test_sfx_end_to_end", "test_cli_end_to_end", "test_i18n"],
-        "summary": "Automated 11-suite verification & stress runner covering NIST/RFC6070 crypto, Deflate multi-block/fuzz, ZIP AE-2/ZipCrypto/Unicode/Repair/Split, OpenRaR Solid/Parallel/BurstRepair/Unicode/Split, Extract modes & Zip-Slip security, TAR GNU LongName, 7z/Convert/Find/Benchmark, RAR5 Inspector, real SFX execution, real CLI process, and 13-language i18n completeness."
+        "summary": "Automated 11-suite verification & stress runner covering NIST/RFC6070 crypto, Deflate multi-block/fuzz, ZIP AE-2/ZipCrypto/Unicode/Repair/Split, OpenRAR Solid/Parallel/BurstRepair/Unicode/Split, Extract modes & Zip-Slip security, TAR GNU LongName, 7z/Convert/Find/Benchmark, RAR5 Inspector, real SFX execution, real CLI process, and 13-language i18n completeness."
       }
     ],
     "features": [

@@ -75,7 +75,7 @@ bool is_archive_path(const fs::path& path) {
 std::string format_name(ArchiveFormat fmt) {
     switch (fmt) {
         case ArchiveFormat::Zip:      return "ZIP";
-        case ArchiveFormat::Orar:  return "OpenRaR (.orar)";
+        case ArchiveFormat::Orar:  return "OpenRAR (.orar)";
         case ArchiveFormat::Tar:      return "TAR";
         case ArchiveFormat::TarGz:    return "TAR.GZ";
         case ArchiveFormat::GZip:     return "GZIP";

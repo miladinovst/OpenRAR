@@ -1,6 +1,6 @@
-# Contributing to OpenRaR
+# Contributing to OpenRAR
 
-Thank you for contributing to OpenRaR! This guide covers local setup, code organization, and how to safely add features.
+Thank you for contributing to OpenRAR! This guide covers local setup, code organization, and how to safely add features.
 
 ## Local Build and Tests
 

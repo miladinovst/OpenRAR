@@ -17,7 +17,7 @@ namespace fs = std::filesystem;
 enum class ArchiveFormat {
     Unknown = 0,
     Zip,       ///< Standard PKWARE ZIP & ZIP64 (.zip, .jar, .apk, .cbz)
-    Orar,      ///< OpenRaR native open-source format (.orar) with solid/AES-GCM/recovery
+    Orar,      ///< OpenRAR native open-source format (.orar) with solid/AES-GCM/recovery
     Tar,       ///< Uncompressed POSIX USTAR archive (.tar)
     TarGz,     ///< GZip-compressed TAR archive (.tar.gz, .tgz)
     GZip,      ///< Single-file GZip stream (.gz)
@@ -107,7 +107,7 @@ struct ArchiveInfo {
 
 /// Real-time progress snapshot emitted to ProgressCallback during long operations.
 struct ProgressInfo {
-    std::string operation;       ///< Current stage (e.g., "Compressing (OpenRaR)")
+    std::string operation;       ///< Current stage (e.g., "Compressing (OpenRAR)")
     std::string current_file;    ///< File currently being processed
     uint64_t bytes_processed = 0;///< Uncompressed bytes processed so far
     uint64_t total_bytes = 0;    ///< Total expected uncompressed bytes
@@ -243,7 +243,7 @@ ArchiveFormat detect_format_from_file(const fs::path& path);
 /// Returns true if the filename has a recognized archive extension.
 bool is_archive_path(const fs::path& path);
 
-/// Returns a human-readable display name for an ArchiveFormat (e.g., "OpenRaR (.orar)").
+/// Returns a human-readable display name for an ArchiveFormat (e.g., "OpenRAR (.orar)").
 std::string format_name(ArchiveFormat fmt);
 
 /// Returns the canonical file extension for an ArchiveFormat (e.g., ".zip", ".tar.gz").

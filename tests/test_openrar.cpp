@@ -1,4 +1,4 @@
-// Comprehensive OpenRaR C++20 Automated Test Suite (11 end-to-end & stress suites).
+// Comprehensive OpenRAR C++20 Automated Test Suite (11 end-to-end & stress suites).
 
 #include "openrar/archive_manager.hpp"
 #include "openrar/crypto.hpp"
@@ -81,7 +81,7 @@ static void test_crypto() {
     for (int i = 0; i < 32; ++i) key[i] = static_cast<uint8_t>(i);
     for (int i = 0; i < 12; ++i) nonce[i] = static_cast<uint8_t>(i + 1);
 
-    std::string msg = "Top secret OpenRaR AES-256-GCM authenticated message!";
+    std::string msg = "Top secret OpenRAR AES-256-GCM authenticated message!";
     std::string aad = "ORAR01";
     uint8_t tag[16]{};
     auto ct = crypto::aes256_gcm_encrypt(key, nonce,
@@ -136,7 +136,7 @@ static void test_deflate_stress() {
     // 2c. Multi-block mixed compressible + random buffer (>200 KB) across all levels 0..5
     std::vector<uint8_t> mixed;
     for (int i = 0; i < 600; ++i) {
-        std::string line = "OpenRaR multi-block dynamic Huffman test record #" + std::to_string(i) + " payload=ABCDEF0123456789\n";
+        std::string line = "OpenRAR multi-block dynamic Huffman test record #" + std::to_string(i) + " payload=ABCDEF0123456789\n";
         mixed.insert(mixed.end(), line.begin(), line.end());
     }
     auto rnd_chunk = crypto::random_bytes(70000);
@@ -174,7 +174,7 @@ static void test_deflate_stress() {
 static void test_zip_lifecycle() {
     auto dir = make_temp_dir("zip");
     auto src = dir / "src";
-    write_text(src / "hello.txt", "Hello OpenRaR ZIP world!");
+    write_text(src / "hello.txt", "Hello OpenRAR ZIP world!");
     write_text(src / "empty.txt", "");
     write_text(src / "sub" / path_from_utf8("caf\xC3\xA9_\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E.txt"),
                std::string(4000, 'A') + "UNICODE_END");
@@ -198,7 +198,7 @@ static void test_zip_lifecycle() {
     ExtractOptions eo;
     eo.destination = out_dir;
     REQUIRE(ArchiveManager::extract(zip_path, eo).success);
-    REQUIRE(read_text(out_dir / "src" / "hello.txt") == "Hello OpenRaR ZIP world!");
+    REQUIRE(read_text(out_dir / "src" / "hello.txt") == "Hello OpenRAR ZIP world!");
     REQUIRE(read_text(out_dir / "src" / "empty.txt").empty());
     REQUIRE(read_text(out_dir / "src" / "sub" / path_from_utf8("caf\xC3\xA9_\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E.txt"))
             == std::string(4000, 'A') + "UNICODE_END");
@@ -252,7 +252,7 @@ static void test_zip_lifecycle() {
 }
 
 // ============================================================================
-// 4. OpenRaR (.orar): Solid, Parallel, AES-GCM, -hp, Multi-Sector Burst Repair, Split, Unicode
+// 4. OpenRAR (.orar): Solid, Parallel, AES-GCM, -hp, Multi-Sector Burst Repair, Split, Unicode
 // ============================================================================
 static void test_orar_full_features() {
     auto dir = make_temp_dir("orar");
@@ -426,7 +426,7 @@ static void test_tar_longname() {
 static void test_7z_convert_find_bench() {
     auto dir = make_temp_dir("misc");
     auto src = dir / "proj";
-    write_text(src / "readme.md", "Welcome to OpenRaR search needle: QUANTUM_42");
+    write_text(src / "readme.md", "Welcome to OpenRAR search needle: QUANTUM_42");
     write_text(src / "code.cpp", "int main() { return 0; }");
 
     fs::path tgz = dir / "proj.tar.gz";
@@ -560,7 +560,7 @@ static void test_sfx_end_to_end() {
     if (!fs::exists(stub)) return; // Skip only if stub wasn't built beside test runner
 
     auto dir = make_temp_dir("sfx");
-    write_text(dir / "payload.txt", "Self-extracting OpenRaR verified!");
+    write_text(dir / "payload.txt", "Self-extracting OpenRAR verified!");
     fs::path arc = dir / "pack.orar";
     CreateOptions co;
     co.format = ArchiveFormat::Orar;
@@ -575,7 +575,7 @@ static void test_sfx_end_to_end() {
     cmd = "\"" + cmd + "\"";
 #endif
     REQUIRE(std::system(cmd.c_str()) == 0);
-    REQUIRE(read_text(out_dir / "payload.txt") == "Self-extracting OpenRaR verified!");
+    REQUIRE(read_text(out_dir / "payload.txt") == "Self-extracting OpenRAR verified!");
 
     fs::remove_all(dir);
 }
@@ -655,11 +655,11 @@ int main(int argc, char* argv[]) {
         std::error_code ec;
         g_bin_dir = fs::absolute(fs::path(argv[0]), ec).parent_path();
     }
-    std::cout << "=== OpenRaR C++20 Comprehensive Test Suite ===\n";
+    std::cout << "=== OpenRAR C++20 Comprehensive Test Suite ===\n";
     run_test("1. Crypto Standards (CRC32, SHA-256, SHA-1, PBKDF2-SHA1, AES-GCM, ZipCrypto)", test_crypto);
     run_test("2. Deflate / Inflate / GZip Stress & Fuzz Resilience", test_deflate_stress);
     run_test("3. ZIP Full Lifecycle (AE-2, ZipCrypto, Unicode, Empty, Comment, Repair, Split)", test_zip_lifecycle);
-    run_test("4. OpenRaR (.orar) Solid, Parallel, AES-GCM, -hp, Burst Repair, Split, Unicode", test_orar_full_features);
+    run_test("4. OpenRAR (.orar) Solid, Parallel, AES-GCM, -hp, Burst Repair, Split, Unicode", test_orar_full_features);
     run_test("5. Extract Modes (Skip, Rename, Flat, Subset) & Zip-Slip Security", test_extract_modes_and_security);
     run_test("6. TAR / TAR.GZ & GNU LongName (>120 chars)", test_tar_longname);
     run_test("7. 7z, Batch Convert, Find-in-Archives & Multi-Threaded Benchmark", test_7z_convert_find_bench);

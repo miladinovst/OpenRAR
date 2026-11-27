@@ -12,7 +12,7 @@ namespace openrar {
 constexpr char kSfxMagic[8] = {'O', 'R', 'A', 'R', 'S', 'F', 'X', '1'};
 constexpr size_t kSfxTrailerSize = 8 + 8 + 8;
 
-/// High-level unified entry point for all OpenRaR operations.
+/// High-level unified entry point for all OpenRAR operations.
 ///
 /// Automatically detects archive formats (by magic bytes + extension) and routes calls
 /// to the appropriate backend (`OrarArchive`, `ZipArchive`, `TarArchive`, or `ExtendedArchive`),
@@ -25,7 +25,7 @@ public:
                      const std::string& password = "",
                      ArchiveInfo* info = nullptr, std::string* err = nullptr);
 
-    /// Creates a new archive in ZIP, OpenRaR (.orar), 7-Zip (.7z), TAR, or TAR.GZ format.
+    /// Creates a new archive in ZIP, OpenRAR (.orar), 7-Zip (.7z), TAR, or TAR.GZ format.
     static OperationResult create(const fs::path& archive_path,
                                   const std::vector<fs::path>& inputs,
                                   const CreateOptions& options);
@@ -48,23 +48,23 @@ public:
                                 ProgressCallback progress = nullptr,
                                 std::atomic<bool>* cancel_flag = nullptr);
 
-    /// Appends or replaces files inside an existing ZIP or OpenRaR (.orar) archive.
+    /// Appends or replaces files inside an existing ZIP or OpenRAR (.orar) archive.
     static OperationResult add_entries(const fs::path& archive_path,
                                        const std::vector<fs::path>& inputs,
                                        const CreateOptions& options);
 
-    /// Removes specified file/folder entries from an existing ZIP or OpenRaR (.orar) archive.
+    /// Removes specified file/folder entries from an existing ZIP or OpenRAR (.orar) archive.
     static OperationResult delete_entries(const fs::path& archive_path,
                                           const std::set<std::string>& entries_to_delete,
                                           const std::string& password = "");
 
-    /// Updates the archive-level comment embedded inside a ZIP or OpenRaR (.orar) archive.
+    /// Updates the archive-level comment embedded inside a ZIP or OpenRAR (.orar) archive.
     static OperationResult set_comment(const fs::path& archive_path,
                                        const std::string& comment,
                                        const std::string& password = "");
 
     /// Repairs a damaged archive:
-    /// - OpenRaR (.orar): bit-for-bit sector reconstruction using the embedded Parity Recovery Record.
+    /// - OpenRAR (.orar): bit-for-bit sector reconstruction using the embedded Parity Recovery Record.
     /// - ZIP (.zip): scans for intact Local File Headers (PK\x03\x04) and rebuilds Central Directory.
     static OperationResult repair(const fs::path& corrupted_path, const fs::path& repaired_path);
 
@@ -92,10 +92,10 @@ public:
                                             const fs::path& cli_exe_path,
                                             std::string* err = nullptr);
 
-    /// Removes all OpenRaR Windows Explorer right-click menu entries from HKCU.
+    /// Removes all OpenRAR Windows Explorer right-click menu entries from HKCU.
     static bool unregister_shell_context_menu(std::string* err = nullptr);
 
-    /// Returns true if OpenRaR's Windows Explorer context menu keys are currently installed.
+    /// Returns true if OpenRAR's Windows Explorer context menu keys are currently installed.
     static bool is_shell_context_menu_registered();
 };
 

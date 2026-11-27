@@ -7,7 +7,7 @@
 
 namespace openrar {
 
-/// Native OpenRaR (.orar) archive handler implementing classic archiver flagship features in open source:
+/// Native OpenRAR (.orar) archive handler implementing classic archiver flagship features in open source:
 /// - Solid compression (`-s`) and multi-threaded non-solid compression
 /// - Authenticated AES-256-GCM encryption (PBKDF2-HMAC-SHA256)
 /// - Encrypted filenames & file table (`-hp`)

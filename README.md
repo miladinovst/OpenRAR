@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/openrar.svg" alt="OpenRaR Logo" width="96"/>
+  <img src="assets/openrar.svg" alt="OpenRAR Logo" width="96"/>
 </p>
 
-<h1 align="center">OpenRaR</h1>
+<h1 align="center">OpenRAR</h1>
 
 <p align="center">
   Fast, zero-dependency, open-source C++20 archiver for Windows, Linux, and macOS.
@@ -20,13 +20,13 @@
 
 ## Overview
 
-OpenRaR is a clean-room, open-source C++20 file archiver with **zero external build dependencies**. It combines a fast multi-threaded compression engine, AES-256-GCM encryption, encrypted filenames (`-hp`), interleaved parity recovery records (`-rr`) for corruption repair, split volumes, standalone self-extracting executables (SFX), recursive search inside archives, and full ZIP64 / AE-2 interoperability.
+OpenRAR is a clean-room, open-source C++20 file archiver with **zero external build dependencies**. It combines a fast multi-threaded compression engine, AES-256-GCM encryption, encrypted filenames (`-hp`), interleaved parity recovery records (`-rr`) for corruption repair, split volumes, standalone self-extracting executables (SFX), recursive search inside archives, and full ZIP64 / AE-2 interoperability.
 
 It ships as four modular CMake targets:
 - **`openrar_core`**: Portable static C++20 library (Windows, Linux, macOS).
 - **`openrar`**: Cross-platform command-line interface.
 - **`openrar_sfx_stub`**: Standalone Self-Extracting Archive stub.
-- **`OpenRaR-GUI.exe`**: Native Win32 desktop GUI on Windows (zero framework bloat, ~830 KB full release bundle).
+- **`OpenRAR-GUI.exe`**: Native Win32 desktop GUI on Windows (zero framework bloat, ~830 KB full release bundle).
 
 ---
 
@@ -34,7 +34,7 @@ It ships as four modular CMake targets:
 
 | Format | Create | Extract | List / Browse | Test | Encrypt | Repair | Split Volumes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **OpenRaR (`.orar`)** | Yes | Yes | Yes | Yes | AES-256-GCM + `-hp` | Yes (Parity RR) | Yes (`.partN.orar`) |
+| **OpenRAR (`.orar`)** | Yes | Yes | Yes | Yes | AES-256-GCM + `-hp` | Yes (Parity RR) | Yes (`.partN.orar`) |
 | **ZIP / ZIP64 (`.zip`)** | Yes | Yes | Yes | Yes | AE-2 AES-256 / ZipCrypto | Yes (Header salvage) | Yes (`.partN.zip`) |
 | **7-Zip (`.7z`)** | Yes | Yes | Yes | Yes | Extract (`7z`) | No | No |
 | **RAR4 / RAR5 (`.rar`)** | Optional (`rar`) | Yes | Yes | Yes | Extract (`unrar`/`7z`) | No | No |
@@ -56,9 +56,9 @@ It ships as four modular CMake targets:
   - Per-file CRC32 + SHA-256 verification, constant-time MAC comparisons, full UTF-8 filename support, and Zip-Slip path traversal protection.
 - **Recovery Records (`-rr`)**
   - Interleaved 512-byte sector CRCs and XOR parity stripes reconstruct bit flips and contiguous burst corruptions in `.orar` archives bit-for-bit.
-- **Native Windows Desktop GUI (`OpenRaR-GUI.exe`)**
+- **Native Windows Desktop GUI (`OpenRAR-GUI.exe`)**
   - 9-button GDI+ toolbar (`Add`, `Extract To`, `Test`, `View`, `Delete`, `Find`, `Wizard`, `Info`, `Repair`).
-  - Hierarchical folder browsing inside archives, drag-and-drop, right-click menus, non-blocking Live Progress dialog (MB/s + Cancel), persistent Favorites and window geometry, live 13-language switcher (`Options -> Language`), and per-user (`HKCU`) cascading Windows Explorer right-click integration (`OpenRaR >`).
+  - Hierarchical folder browsing inside archives, drag-and-drop, right-click menus, non-blocking Live Progress dialog (MB/s + Cancel), persistent Favorites and window geometry, live 13-language switcher (`Options -> Language`), and per-user (`HKCU`) cascading Windows Explorer right-click integration (`OpenRAR >`).
 - **13 Built-In Languages**
   - Automatic OS locale detection on startup, live GUI switching (`Options -> Language`), and CLI `--lang=<code>` / `OPENRAR_LANG`:
   - English (`en`), Chinese (`zh`), Spanish (`es`), Hindi (`hi`), Arabic (`ar`), Portuguese (`pt`), Indonesian (`id`), French (`fr`), Japanese (`ja`), Russian (`ru`), Serbian (`sr`), Croatian (`hr`), Bosnian (`bs`).
@@ -68,10 +68,10 @@ It ships as four modular CMake targets:
 ## Installation & Setup
 
 ### Windows
-1. **Installer / Portable Release**: Download `OpenRaR-Setup-1.0.0-win64.exe` (Inno Setup wizard) or `OpenRaR-1.0.0-win64.zip` from GitHub Releases.
+1. **Installer / Portable Release**: Download `OpenRAR-Setup-1.0.0-win64.exe` (Inno Setup wizard) or `OpenRAR-1.0.0-win64.zip` from GitHub Releases.
 2. **Per-User PowerShell Installer (No Admin Required)**:
    ```powershell
-   # Installs to %LOCALAPPDATA%\OpenRaR, adds to user PATH, creates Start Menu/Desktop shortcuts,
+   # Installs to %LOCALAPPDATA%\OpenRAR, adds to user PATH, creates Start Menu/Desktop shortcuts,
    # registers the Windows Explorer right-click menu, and adds an Installed Apps uninstall entry
    .\installer\windows\install.ps1
 
@@ -96,9 +96,9 @@ chmod +x installer/unix/install.sh installer/unix/uninstall.sh
 
 ### Automated Multi-OS GitHub Releases
 Pushing a version tag (`git tag v1.0.0 && git push origin v1.0.0`) automatically runs [.github/workflows/release.yml](.github/workflows/release.yml) to build, test, checksum (`SHA256SUMS.txt`), and publish release assets for:
-- **Windows x64**: `OpenRaR-<ver>-win64.zip` + `OpenRaR-Setup-<ver>-win64.exe`
-- **Linux x86_64**: `OpenRaR-<ver>-linux-x86_64.tar.gz` + `.deb`
-- **macOS**: `OpenRaR-<ver>-macos-<arch>.tar.gz`
+- **Windows x64**: `OpenRAR-<ver>-win64.zip` + `OpenRAR-Setup-<ver>-win64.exe`
+- **Linux x86_64**: `OpenRAR-<ver>-linux-x86_64.tar.gz` + `.deb`
+- **macOS**: `OpenRAR-<ver>-macos-<arch>.tar.gz`
 
 ---
 
@@ -106,7 +106,7 @@ Pushing a version tag (`git tag v1.0.0 && git push origin v1.0.0`) automatically
 
 ### Windows (MSVC + Ninja)
 ```powershell
-# Configure, build (0 warnings at /W4), run all 11 test suites, and launch OpenRaR-GUI.exe
+# Configure, build (0 warnings at /W4), run all 11 test suites, and launch OpenRAR-GUI.exe
 .\build.ps1 -Test -RunGui
 ```
 
@@ -166,7 +166,7 @@ openrar b
 openrar lang
 openrar lang --lang=sr
 
-# Enable / remove Windows Explorer cascading right-click "OpenRaR >" menu (no admin needed)
+# Enable / remove Windows Explorer cascading right-click "OpenRAR >" menu (no admin needed)
 openrar install-menu
 openrar uninstall-menu
 ```
@@ -192,7 +192,7 @@ openrar uninstall-menu
 ## Project Structure
 
 ```text
-OpenRaR/
+OpenRAR/
 ├── .github/workflows/
 │   ├── ci.yml                 # Windows (MSVC), Linux (GCC/Clang) & macOS (Clang) CI
 │   └── release.yml            # Tag-triggered multi-OS GitHub Release workflow
@@ -209,7 +209,7 @@ OpenRaR/
 │   ├── core/                  # Zero-dependency archiver library + 13-language i18n
 │   ├── cli/                   # Cross-platform CLI (openrar)
 │   ├── sfx/                   # Self-Extracting Archive stub (openrar_sfx_stub)
-│   └── gui/                   # Modular Win32 desktop GUI (OpenRaR-GUI.exe)
+│   └── gui/                   # Modular Win32 desktop GUI (OpenRAR-GUI.exe)
 ├── tests/                     # Automated 11-suite test & stress runner (openrar_tests)
 ├── AGENTS.md                  # AI agent onboarding & Done / Not-Done roadmap
 ├── ARCHITECTURE.md            # System layers, module map, and .orar binary specification
@@ -234,7 +234,7 @@ OpenRaR/
 
 - Chunked streaming I/O for 10 GB+ archives in `ZipArchive` and `OrarArchive`
 - OLE drag-out extraction from open archives to Windows Explorer
-- Optional collapsible folder tree and comment side panel in `OpenRaR-GUI`
+- Optional collapsible folder tree and comment side panel in `OpenRAR-GUI`
 - Optional Zstandard / LZMA2 codec inside `.orar`
 - Optional Linux desktop GUI frontend calling `openrar_core`
 
@@ -242,4 +242,4 @@ OpenRaR/
 
 ## Legal and Trademark Notice
 
-OpenRaR is an independent, clean-room open-source project licensed under the [MIT License](LICENSE). It is not affiliated with, endorsed by, or sponsored by win.rar GmbH, RARLAB, Corel/WinZip, or 7-Zip. Third-party format names (`.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.cab`, `.iso`) are used strictly to describe file-format compatibility and remain the property of their respective owners.
+OpenRAR is an independent, clean-room open-source project licensed under the [MIT License](LICENSE). It is not affiliated with, endorsed by, or sponsored by win.rar GmbH, RARLAB, Corel/WinZip, or 7-Zip. Third-party format names (`.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.cab`, `.iso`) are used strictly to describe file-format compatibility and remain the property of their respective owners.

@@ -1,4 +1,4 @@
-// OpenRaR (.orar) container implementation.
+// OpenRAR (.orar) container implementation.
 // Wire layout: [135B Fixed Header][File Table][Payload][Optional "RECR" Recovery Record].
 // Supports solid mode, parallel per-file Deflate, AES-256-GCM payload & header encryption,
 // interleaved parity recovery repair, and .partN.orar split volumes.
@@ -91,11 +91,11 @@ std::vector<uint8_t> serialize_header(const OrarHeader& h) {
 
 bool parse_header(const std::vector<uint8_t>& buf, OrarHeader& h, std::string* err) {
     if (buf.size() < kFixedHeaderSize) {
-        if (err) *err = "File too small to be an OpenRaR archive";
+        if (err) *err = "File too small to be an OpenRAR archive";
         return false;
     }
     if (std::memcmp(buf.data(), kOrarMagic, 6) != 0) {
-        if (err) *err = "Invalid OpenRaR magic header";
+        if (err) *err = "Invalid OpenRAR magic header";
         return false;
     }
     size_t p = 6;
@@ -117,7 +117,7 @@ bool parse_header(const std::vector<uint8_t>& buf, OrarHeader& h, std::string* e
     if (h.table_offset + h.table_size > buf.size() ||
         h.payload_offset + h.payload_size > buf.size() ||
         (h.recovery_size > 0 && h.recovery_offset + h.recovery_size > buf.size())) {
-        if (err) *err = "Corrupted OpenRaR section offsets";
+        if (err) *err = "Corrupted OpenRAR section offsets";
         return false;
     }
     return true;
@@ -200,7 +200,7 @@ bool decode_payload(const std::vector<uint8_t>& buf, const OrarHeader& h,
                        buf.begin() + static_cast<ptrdiff_t>(h.payload_offset + h.payload_size));
     if (h.flags & kFlagEncrypted) {
         if (password.empty()) {
-            if (err) *err = "Password required for encrypted OpenRaR archive";
+            if (err) *err = "Password required for encrypted OpenRAR archive";
             return false;
         }
         auto key = crypto::pbkdf2_hmac_sha256(password, h.salt.data(), 16, kPbkdf2Iters, 32);
@@ -344,7 +344,7 @@ OperationResult build_and_write_orar(const fs::path& archive_path,
             entries.push_back(std::move(e));
             bytes_done += it.data.size();
             if (options.progress) {
-                ProgressInfo pi{"Compressing (OpenRaR Solid)", it.rel_path, bytes_done, total_bytes, i + 1, items.size(), 0.0};
+                ProgressInfo pi{"Compressing (OpenRAR Solid)", it.rel_path, bytes_done, total_bytes, i + 1, items.size(), 0.0};
                 options.progress(pi);
             }
         }
@@ -420,7 +420,7 @@ OperationResult build_and_write_orar(const fs::path& archive_path,
             if (options.progress) {
                 double elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
                 ProgressInfo pi{
-                    "Compressing (OpenRaR)", entries.back().path, bytes_done, total_bytes, i + 1, items.size(),
+                    "Compressing (OpenRAR)", entries.back().path, bytes_done, total_bytes, i + 1, items.size(),
                     elapsed > 0.001 ? static_cast<double>(bytes_done) / elapsed : 0.0
                 };
                 options.progress(pi);
@@ -488,7 +488,7 @@ OperationResult build_and_write_orar(const fs::path& archive_path,
         }
     } else {
         if (!write_file_bytes(archive_path, archive_bytes.data(), archive_bytes.size())) {
-            return OperationResult::fail("Failed writing OpenRaR archive: " + path_to_utf8(archive_path));
+            return OperationResult::fail("Failed writing OpenRAR archive: " + path_to_utf8(archive_path));
         }
         res.output_files.push_back(archive_path);
     }
@@ -497,7 +497,7 @@ OperationResult build_and_write_orar(const fs::path& archive_path,
     res.files_processed = items.size();
     res.bytes_processed = total_bytes;
     res.duration_seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
-    res.message = "Created OpenRaR archive with " + std::to_string(items.size()) + " item(s)";
+    res.message = "Created OpenRAR archive with " + std::to_string(items.size()) + " item(s)";
     return res;
 }
 
@@ -508,7 +508,7 @@ bool OrarArchive::list(const fs::path& archive_path, std::vector<EntryInfo>& ent
     entries.clear();
     size_t vol_count = 1;
     auto buf = load_orar_volumes(archive_path, &vol_count);
-    if (buf.empty()) { if (err) *err = "Cannot read OpenRaR archive"; return false; }
+    if (buf.empty()) { if (err) *err = "Cannot read OpenRAR archive"; return false; }
 
     OrarHeader hdr;
     if (!parse_header(buf, hdr, err)) return false;
@@ -588,7 +588,7 @@ OperationResult OrarArchive::create(const fs::path& archive_path,
 OperationResult OrarArchive::extract(const fs::path& archive_path, const ExtractOptions& options) {
     auto t0 = std::chrono::steady_clock::now();
     auto buf = load_orar_volumes(archive_path);
-    if (buf.empty()) return OperationResult::fail("Cannot read OpenRaR archive");
+    if (buf.empty()) return OperationResult::fail("Cannot read OpenRAR archive");
 
     OrarHeader hdr;
     std::string err, comment;
@@ -657,7 +657,7 @@ OperationResult OrarArchive::extract(const fs::path& archive_path, const Extract
         if (options.progress) {
             double elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
             ProgressInfo pi{
-                "Extracting (OpenRaR)", norm, bytes_done, total_bytes, files_done, entries.size(),
+                "Extracting (OpenRAR)", norm, bytes_done, total_bytes, files_done, entries.size(),
                 elapsed > 0.001 ? static_cast<double>(bytes_done) / elapsed : 0.0
             };
             options.progress(pi);
@@ -678,7 +678,7 @@ bool OrarArchive::extract_entry_to_memory(const fs::path& archive_path, const st
                                              const std::string& password, std::vector<uint8_t>& out,
                                              std::string* err) {
     auto buf = load_orar_volumes(archive_path);
-    if (buf.empty()) { if (err) *err = "Cannot read OpenRaR"; return false; }
+    if (buf.empty()) { if (err) *err = "Cannot read OpenRAR"; return false; }
     OrarHeader hdr;
     std::string comment;
     std::vector<OrarEntry> entries;
@@ -700,7 +700,7 @@ OperationResult OrarArchive::test(const fs::path& archive_path, const std::strin
                                      ProgressCallback progress, std::atomic<bool>* cancel_flag) {
     auto t0 = std::chrono::steady_clock::now();
     auto buf = load_orar_volumes(archive_path);
-    if (buf.empty()) return OperationResult::fail("Cannot read OpenRaR archive");
+    if (buf.empty()) return OperationResult::fail("Cannot read OpenRAR archive");
 
     OrarHeader hdr;
     std::string err, comment;
@@ -726,7 +726,7 @@ OperationResult OrarArchive::test(const fs::path& archive_path, const std::strin
             bytes_done += data.size();
         }
         if (progress) {
-            ProgressInfo pi{"Testing (OpenRaR)", e.path, bytes_done, bytes_done, files_done, entries.size(), 0.0};
+            ProgressInfo pi{"Testing (OpenRAR)", e.path, bytes_done, bytes_done, files_done, entries.size(), 0.0};
             progress(pi);
         }
     }
@@ -780,7 +780,7 @@ OperationResult OrarArchive::delete_entries(const fs::path& archive_path,
                                                const std::set<std::string>& entries_to_delete,
                                                const std::string& password) {
     auto buf = load_orar_volumes(archive_path);
-    if (buf.empty()) return OperationResult::fail("Cannot read OpenRaR archive");
+    if (buf.empty()) return OperationResult::fail("Cannot read OpenRAR archive");
 
     OrarHeader hdr;
     std::string err, comment;
@@ -823,7 +823,7 @@ OperationResult OrarArchive::set_comment(const fs::path& archive_path,
                                             const std::string& comment,
                                             const std::string& password) {
     auto buf = load_orar_volumes(archive_path);
-    if (buf.empty()) return OperationResult::fail("Cannot read OpenRaR archive");
+    if (buf.empty()) return OperationResult::fail("Cannot read OpenRAR archive");
     OrarHeader hdr;
     std::string err, old_cmt;
     std::vector<OrarEntry> entries;
@@ -848,13 +848,13 @@ OperationResult OrarArchive::set_comment(const fs::path& archive_path,
     opts.recovery_percent = hdr.recovery_percent;
     opts.comment = comment;
     auto r = build_and_write_orar(archive_path, items, opts);
-    if (r.success) r.message = "Updated OpenRaR archive comment";
+    if (r.success) r.message = "Updated OpenRAR archive comment";
     return r;
 }
 
 OperationResult OrarArchive::repair(const fs::path& corrupted_path, const fs::path& repaired_path) {
     auto buf = load_orar_volumes(corrupted_path);
-    if (buf.empty()) return OperationResult::fail("Cannot read corrupted OpenRaR file");
+    if (buf.empty()) return OperationResult::fail("Cannot read corrupted OpenRAR file");
 
     OrarHeader hdr;
     std::string err;

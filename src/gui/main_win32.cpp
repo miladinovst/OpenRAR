@@ -225,7 +225,7 @@ void render_archive_subdir(const std::string& subdir) {
         std::replace(sub_win.begin(), sub_win.end(), '/', '\\');
         addr += L"\\" + utf8_to_wide(sub_win);
     }
-    SetWindowTextW(g_app.hwnd, (g_app.current_archive.filename().wstring() + L" - OpenRaR").c_str());
+    SetWindowTextW(g_app.hwnd, (g_app.current_archive.filename().wstring() + L" - OpenRAR").c_str());
     refresh_address_dropdown(fs::path(addr));
 
     g_app.items.push_back({"..", "", tr_w(i18n::StrKey::TypeSystemFolder), true, true, false, 0, 0, 0, 0, g_app.icon_folder});
@@ -273,7 +273,7 @@ void populate_listview_archive(const fs::path& archive_path) {
                               L"Enter password for the encrypted archive:", wpwd, true)) {
             g_app.default_password = wide_to_utf8(wpwd);
             if (!ArchiveManager::list(archive_path, entries, g_app.default_password, &info, &err)) {
-                MessageBoxW(g_app.hwnd, utf8_to_wide("Failed to open archive:\n" + err).c_str(), L"OpenRaR", MB_ICONERROR);
+                MessageBoxW(g_app.hwnd, utf8_to_wide("Failed to open archive:\n" + err).c_str(), L"OpenRAR", MB_ICONERROR);
                 return;
             }
         } else {
@@ -339,12 +339,12 @@ void cmd_add(const std::vector<fs::path>& explicit_inputs = {}) {
                     co.progress = std::move(cb); co.cancel_flag = cancel;
                     return ArchiveManager::add_entries(g_app.current_archive, {fp}, co);
                 });
-            MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+            MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
             populate_listview_archive(g_app.current_archive);
             return;
         }
         auto sel = get_selected_items();
-        if (sel.empty()) { MessageBoxW(g_app.hwnd, L"Select files or folders to archive.", L"OpenRaR", MB_ICONINFORMATION); return; }
+        if (sel.empty()) { MessageBoxW(g_app.hwnd, L"Select files or folders to archive.", L"OpenRAR", MB_ICONINFORMATION); return; }
         for (const auto& s : sel) inputs.push_back(path_from_utf8(s.full_path));
     }
     fs::path parent = inputs[0].parent_path();
@@ -359,7 +359,7 @@ void cmd_add(const std::vector<fs::path>& explicit_inputs = {}) {
             opts.progress = std::move(cb); opts.cancel_flag = cancel;
             return ArchiveManager::create(default_out, inputs, opts);
         });
-    MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+    MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
     if (!g_app.in_archive) populate_listview_filesystem(g_app.current_dir);
 }
 
@@ -403,7 +403,7 @@ void cmd_extract() {
     } else {
         std::string msg = res.message;
         for (const auto& e : res.errors) msg += "\n- " + e;
-        MessageBoxW(g_app.hwnd, utf8_to_wide(msg).c_str(), L"OpenRaR Extract", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+        MessageBoxW(g_app.hwnd, utf8_to_wide(msg).c_str(), L"OpenRAR Extract", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
     }
     if (!g_app.in_archive) populate_listview_filesystem(g_app.current_dir);
 }
@@ -426,7 +426,7 @@ void cmd_extract_quick(bool to_subfolder) {
             eo.progress = std::move(cb); eo.cancel_flag = cancel;
             return ArchiveManager::extract(archive, eo);
         });
-    if (!res.success) MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR Extract", MB_ICONERROR);
+    if (!res.success) MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR Extract", MB_ICONERROR);
     if (!g_app.in_archive) populate_listview_filesystem(g_app.current_dir);
 }
 
@@ -452,7 +452,7 @@ void cmd_quick_archive(ArchiveFormat fmt) {
             co.progress = std::move(cb); co.cancel_flag = cancel;
             return ArchiveManager::create(out, inputs, co);
         });
-    if (!res.success) MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR", MB_ICONERROR);
+    if (!res.success) MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR", MB_ICONERROR);
     populate_listview_filesystem(g_app.current_dir);
 }
 
@@ -461,7 +461,7 @@ void cmd_test() {
     if (archive.empty()) {
         auto sel = get_selected_items();
         if (!sel.empty() && sel[0].is_archive) archive = path_from_utf8(sel[0].full_path);
-        else { MessageBoxW(g_app.hwnd, L"Select or open an archive to test.", L"OpenRaR", MB_ICONINFORMATION); return; }
+        else { MessageBoxW(g_app.hwnd, L"Select or open an archive to test.", L"OpenRAR", MB_ICONINFORMATION); return; }
     }
     auto res = run_with_progress(g_app.hwnd, g_app.font, L"Testing " + archive.filename().wstring(),
         [&](ProgressCallback cb, std::atomic<bool>* cancel) {
@@ -469,7 +469,7 @@ void cmd_test() {
         });
     std::string msg = res.message;
     for (const auto& e : res.errors) msg += "\n- " + e;
-    MessageBoxW(g_app.hwnd, utf8_to_wide(msg).c_str(), L"Diagnostic messages - OpenRaR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+    MessageBoxW(g_app.hwnd, utf8_to_wide(msg).c_str(), L"Diagnostic messages - OpenRAR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
 }
 
 void cmd_view() {
@@ -481,7 +481,7 @@ void cmd_view() {
     }
     std::vector<uint8_t> data; std::string err;
     if (!ArchiveManager::extract_entry_to_memory(g_app.current_archive, sel[0].full_path, g_app.default_password, data, &err)) {
-        MessageBoxW(g_app.hwnd, utf8_to_wide(err).c_str(), L"OpenRaR View", MB_ICONERROR); return;
+        MessageBoxW(g_app.hwnd, utf8_to_wide(err).c_str(), L"OpenRAR View", MB_ICONERROR); return;
     }
     std::error_code ec;
     fs::path tmp = fs::temp_directory_path(ec) / path_from_utf8("openrar_view_" + path_to_utf8(path_from_utf8(sel[0].full_path).filename()));
@@ -492,12 +492,12 @@ void cmd_view() {
 void cmd_delete() {
     auto sel = get_selected_items();
     if (sel.empty()) return;
-    if (MessageBoxW(g_app.hwnd, tr_w(i18n::StrKey::DlgConfirmDelete).c_str(), L"OpenRaR", MB_YESNO | MB_ICONWARNING) != IDYES) return;
+    if (MessageBoxW(g_app.hwnd, tr_w(i18n::StrKey::DlgConfirmDelete).c_str(), L"OpenRAR", MB_YESNO | MB_ICONWARNING) != IDYES) return;
     if (g_app.in_archive) {
         std::set<std::string> targets;
         collect_selected_archive_entries(targets);
         auto res = ArchiveManager::delete_entries(g_app.current_archive, targets, g_app.default_password);
-        MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+        MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
         populate_listview_archive(g_app.current_archive);
     } else {
         std::error_code ec;
@@ -524,7 +524,7 @@ void cmd_find() {
         if (m.is_in_archive()) oss << "[ARCHIVE] " << path_to_utf8(m.archive_path.filename()) << " -> " << m.entry_path << "\n";
         else oss << path_to_utf8(m.file_path) << "\n";
     }
-    MessageBoxW(g_app.hwnd, utf8_to_wide(oss.str()).c_str(), L"Search results - OpenRaR", MB_ICONINFORMATION);
+    MessageBoxW(g_app.hwnd, utf8_to_wide(oss.str()).c_str(), L"Search results - OpenRAR", MB_ICONINFORMATION);
 }
 
 void cmd_wizard() {
@@ -539,7 +539,7 @@ void cmd_wizard() {
             open_file_dialog(g_app.hwnd, L"File to add\0*.*\0", fp)) {
             CreateOptions co; co.password = g_app.default_password;
             auto res = ArchiveManager::add_entries(arc, {fp}, co);
-            MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR Wizard", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+            MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR Wizard", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
         }
     }
 }
@@ -549,11 +549,11 @@ void cmd_info() {
     if (archive.empty()) {
         auto sel = get_selected_items();
         if (!sel.empty() && sel[0].is_archive) archive = path_from_utf8(sel[0].full_path);
-        else { MessageBoxW(g_app.hwnd, L"Select or open an archive to view its info.", L"OpenRaR", MB_ICONINFORMATION); return; }
+        else { MessageBoxW(g_app.hwnd, L"Select or open an archive to view its info.", L"OpenRAR", MB_ICONINFORMATION); return; }
     }
     std::vector<EntryInfo> entries; ArchiveInfo info; std::string err;
     if (!ArchiveManager::list(archive, entries, g_app.default_password, &info, &err)) {
-        MessageBoxW(g_app.hwnd, utf8_to_wide(err).c_str(), L"OpenRaR Info", MB_ICONERROR); return;
+        MessageBoxW(g_app.hwnd, utf8_to_wide(err).c_str(), L"OpenRAR Info", MB_ICONERROR); return;
     }
     std::ostringstream oss;
     oss << "Archive: " << path_to_utf8(info.file_path) << "\n"
@@ -582,11 +582,11 @@ void cmd_repair() {
 }
 
 void cmd_comment() {
-    if (!g_app.in_archive) { MessageBoxW(g_app.hwnd, L"Open a .orar or .zip archive to edit its comment.", L"OpenRaR", MB_ICONINFORMATION); return; }
+    if (!g_app.in_archive) { MessageBoxW(g_app.hwnd, L"Open a .orar or .zip archive to edit its comment.", L"OpenRAR", MB_ICONINFORMATION); return; }
     std::wstring cmt = utf8_to_wide(g_app.current_archive_info.comment);
     if (show_input_dialog(g_app.hwnd, g_app.font, L"Archive comment", L"Enter a comment:", cmt, false, true)) {
         auto res = ArchiveManager::set_comment(g_app.current_archive, wide_to_utf8(cmt), g_app.default_password);
-        MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
+        MessageBoxW(g_app.hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR", res.success ? MB_ICONINFORMATION : MB_ICONERROR);
         populate_listview_archive(g_app.current_archive);
     }
 }
@@ -632,7 +632,7 @@ void add_favorite() {
     g_app.favorites.push_back(p);
     AppendMenuW(g_app.fav_menu, MF_STRING, IDM_FAV_BASE + static_cast<UINT_PTR>(g_app.favorites.size() - 1), p.wstring().c_str());
     persist_current_config();
-    MessageBoxW(g_app.hwnd, (tr_w_plain(i18n::StrKey::FavAdd) + L":\n" + p.wstring()).c_str(), L"OpenRaR", MB_ICONINFORMATION);
+    MessageBoxW(g_app.hwnd, (tr_w_plain(i18n::StrKey::FavAdd) + L":\n" + p.wstring()).c_str(), L"OpenRAR", MB_ICONINFORMATION);
 }
 
 void open_selected_item() {
@@ -990,18 +990,18 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                     std::string err;
                     bool ok = ArchiveManager::register_shell_context_menu(gui, gui.parent_path() / "openrar.exe", &err);
                     MessageBoxW(hwnd, ok ? tr_w(i18n::StrKey::MsgShellRegOk).c_str() : utf8_to_wide(err).c_str(),
-                                L"OpenRaR", ok ? MB_ICONINFORMATION : MB_ICONERROR);
+                                L"OpenRAR", ok ? MB_ICONINFORMATION : MB_ICONERROR);
                     break;
                 }
                 case IDM_OPT_SHELL_UNREG:
                     ArchiveManager::unregister_shell_context_menu();
-                    MessageBoxW(hwnd, tr_w(i18n::StrKey::MsgShellUnregOk).c_str(), L"OpenRaR", MB_ICONINFORMATION);
+                    MessageBoxW(hwnd, tr_w(i18n::StrKey::MsgShellUnregOk).c_str(), L"OpenRAR", MB_ICONINFORMATION);
                     break;
                 case IDM_HELP_ABOUT:
                     MessageBoxW(hwnd,
-                                L"OpenRaR 1.0 (Open-Source C++20 Archiver)\n\n"
+                                L"OpenRAR 1.0 (Open-Source C++20 Archiver)\n\n"
                                 L"Cross-platform Windows, Linux & macOS engine:\n"
-                                L"- OpenRaR (.orar): Solid, AES-256-GCM, Encrypted Headers, Recovery Records, Split Volumes\n"
+                                L"- OpenRAR (.orar): Solid, AES-256-GCM, Encrypted Headers, Recovery Records, Split Volumes\n"
                                 L"- ZIP / ZIP64 (.zip): Dynamic Huffman Deflate, AES-256 & ZipCrypto, Comments, Repair\n"
                                 L"- RAR4/RAR5, 7z, TAR, TAR.GZ, TAR.XZ, TAR.BZ2, CAB, ISO\n"
                                 L"- 13 Languages (en, zh, es, hi, ar, pt, id, fr, ja, ru, sr, hr, bs)\n"
@@ -1039,7 +1039,7 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int nCmdShow) {
     WNDCLASSW wc{};
     wc.lpfnWndProc = MainWndProc;
     wc.hInstance = hInst;
-    wc.lpszClassName = L"OpenRaRMainWindow";
+    wc.lpszClassName = L"OpenRARMainWindow";
     wc.hbrBackground = reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH));
     wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     RegisterClassW(&wc);
@@ -1050,7 +1050,7 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int nCmdShow) {
     }
     g_app.favorites = std::move(cfg.favorites);
 
-    HWND hwnd = CreateWindowExW(0, L"OpenRaRMainWindow", L"OpenRaR",
+    HWND hwnd = CreateWindowExW(0, L"OpenRARMainWindow", L"OpenRAR",
                                 WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, cfg.win_width, cfg.win_height,
                                 nullptr, nullptr, hInst, nullptr);
 
@@ -1080,7 +1080,7 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int nCmdShow) {
                     co.progress = std::move(cb); co.cancel_flag = cancel;
                     return ArchiveManager::create(out, {target}, co);
                 });
-            if (!res.success) MessageBoxW(hwnd, utf8_to_wide(res.message).c_str(), L"OpenRaR", MB_ICONERROR);
+            if (!res.success) MessageBoxW(hwnd, utf8_to_wide(res.message).c_str(), L"OpenRAR", MB_ICONERROR);
             handled_direct = true;
         } else if (flag == L"--extract") {
             g_app.in_archive = true;

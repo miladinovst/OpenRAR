@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(OpenRaR VERSION 1.0.0 LANGUAGES CXX)
+project(OpenRAR VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -73,17 +73,17 @@ target_link_libraries(openrar_sfx_stub PRIVATE openrar_core)
 openrar_configure_target(openrar_sfx_stub)
 
 # ---------------------------------------------------------------------------
-# 4. Native Windows Win32 GUI (`OpenRaR-GUI`)
+# 4. Native Windows Win32 GUI (`OpenRAR-GUI`)
 # ---------------------------------------------------------------------------
 if(WIN32 AND OPENRAR_BUILD_GUI)
-    add_executable(OpenRaR-GUI WIN32
+    add_executable(OpenRAR-GUI WIN32
         src/gui/main_win32.cpp
         src/gui/gui_dialogs.cpp
         src/gui/gui_toolbar.cpp
         src/gui/app.rc
         src/gui/app.manifest
     )
-    target_link_libraries(OpenRaR-GUI PRIVATE
+    target_link_libraries(OpenRAR-GUI PRIVATE
         openrar_core
         comctl32
         comdlg32
@@ -95,7 +95,7 @@ if(WIN32 AND OPENRAR_BUILD_GUI)
         gdiplus
         user32
     )
-    openrar_configure_target(OpenRaR-GUI)
+    openrar_configure_target(OpenRAR-GUI)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -106,7 +106,7 @@ if(OPENRAR_BUILD_TESTS)
     add_executable(openrar_tests tests/test_openrar.cpp)
     target_link_libraries(openrar_tests PRIVATE openrar_core)
     openrar_configure_target(openrar_tests)
-    add_test(NAME OpenRaRTests COMMAND openrar_tests)
+    add_test(NAME OpenRARTests COMMAND openrar_tests)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -115,13 +115,13 @@ endif()
 include(GNUInstallDirs)
 install(TARGETS openrar openrar_sfx_stub RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 if(WIN32 AND OPENRAR_BUILD_GUI)
-    install(TARGETS OpenRaR-GUI RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(TARGETS OpenRAR-GUI RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 install(FILES README.md LICENSE DESTINATION ${CMAKE_INSTALL_DOCDIR})
 install(FILES assets/openrar.svg DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps)
 
-set(CPACK_PACKAGE_NAME "OpenRaR")
-set(CPACK_PACKAGE_VENDOR "OpenRaR Contributors")
+set(CPACK_PACKAGE_NAME "OpenRAR")
+set(CPACK_PACKAGE_VENDOR "OpenRAR Contributors")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Fast, zero-dependency, open-source C++20 archiver")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
@@ -131,7 +131,7 @@ elseif(APPLE)
     set(CPACK_GENERATOR "TGZ")
 else()
     set(CPACK_GENERATOR "TGZ;DEB")
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "OpenRaR Contributors")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "OpenRAR Contributors")
     set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
 endif()
 include(CPack)
